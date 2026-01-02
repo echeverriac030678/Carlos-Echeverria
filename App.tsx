@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, ReactNode } from 'react';
 import { HashRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { StoreProvider } from './context/StoreContext';
 
@@ -12,6 +12,7 @@ import Catalog from './pages/Catalog';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import About from './pages/About';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 
@@ -25,13 +26,21 @@ const ScrollToTop = () => {
 };
 
 // Protected Route Wrapper
-const ProtectedRoute = ({ children }: { children: React.ReactElement }) => {
+interface ProtectedRouteProps {
+  children: ReactNode;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const isAuthenticated = localStorage.getItem('ido_admin_auth') === 'true';
-  return isAuthenticated ? children : <Navigate to="/admin" replace />;
+  return isAuthenticated ? <>{children}</> : <Navigate to="/admin" replace />;
 };
 
 // Layout Wrapper (Navbar + Footer only for public pages)
-const MainLayout = ({ children }: { children: React.ReactNode }) => {
+interface MainLayoutProps {
+  children: ReactNode;
+}
+
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -51,6 +60,7 @@ const App: React.FC = () => {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<MainLayout><Home /></MainLayout>} />
+          <Route path="/about" element={<MainLayout><About /></MainLayout>} />
           <Route path="/catalog" element={<MainLayout><Catalog /></MainLayout>} />
           <Route path="/product/:id" element={<MainLayout><ProductDetail /></MainLayout>} />
           <Route path="/cart" element={<MainLayout><Cart /></MainLayout>} />

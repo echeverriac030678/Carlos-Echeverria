@@ -1,15 +1,70 @@
 import { Product, SiteConfig } from './types';
 
 export const INITIAL_SITE_CONFIG: SiteConfig = {
-  heroTitle: "Potencia tu Campo e Industria",
-  heroSubtitle: "Repuestos agrícolas, tornillería y ferretería de alta calidad.",
-  heroImageUrl: "https://images.unsplash.com/photo-1625246333195-58197bd47f3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-  logoUrl: "", // Empty by default to show the icon
-  logoHeight: 40, // Default height in pixels
-  footerLogoHeight: 60, // Default footer logo height
-  primaryColor: 'green',
-  contactPhone: "+1234567890",
-  contactEmail: "info@idopa.shop"
+  "heroTitle": "Potencia tu Campo e Industria",
+  "heroSubtitle": "Repuestos agrícolas, tornillería y ferretería de alta calidad.",
+  "heroImageUrl": "https://desbrozadora.my.canva.site/dag9nobbu2c/_assets/media/bffb70dbe5b62a71ba6f52aa7e33eee9.png",
+  "heroHeight": 600,
+  "logoUrl": "",
+  "logoHeight": 40,
+  "footerLogoHeight": 60,
+  "primaryColor": "green",
+  "contactPhone": "+1234567890",
+  "contactEmail": "info@idopa.shop",
+  "address": "Zona Industrial II, Galpón 4-A",
+  
+  "companyDescription": "Inversiones y Desarrollo Original (IDO) es una empresa dedicada a la comercialización y distribución de repuestos agrícolas, maquinaria, ferretería y tornillería especializada. Nacimos con el propósito de cubrir la necesidad de insumos de alta calidad para el trabajador del campo y la industria local.",
+  "companyMission": "Proveer al sector agroindustrial de repuestos, herramientas y soluciones confiables que maximicen su productividad. Nos esforzamos por ofrecer un servicio ágil, asesoría técnica experta y precios competitivos, construyendo relaciones de confianza a largo plazo con nuestros clientes y aliados comerciales.",
+  "companyVision": "Consolidarnos como el referente líder a nivel nacional en el suministro de repuestos, maquinarias e insumos agrícolas, reconocidos por nuestra innovación, destacando por un servicio técnico transparente y humano. Aspiramos a ser una empresa que inspire a otros a través de su fe, demostrando que el éxito comercial y el servicio al prójimo caminan de la mano.",
+
+  "quickLinks": [
+    {
+      "text": "Inicio",
+      "url": "/"
+    },
+    {
+      "text": "Nosotros",
+      "url": "/about"
+    },
+    {
+      "text": "Catálogo de Productos",
+      "url": "/catalog"
+    },
+    {
+      "text": "Mi Carrito",
+      "url": "/cart"
+    }
+  ],
+  "homeCategories": [
+    {
+      "id": "1",
+      "name": "Repuestos",
+      "description": "Para maquinaria 43cc/52cc",
+      "type": "icon",
+      "value": "Settings"
+    },
+    {
+      "id": "2",
+      "name": "Tornillería",
+      "description": "Alta resistencia industrial",
+      "type": "icon",
+      "value": "Wrench"
+    },
+    {
+      "id": "3",
+      "name": "Herramientas",
+      "description": "Mano de obra eficiente",
+      "type": "icon",
+      "value": "Hammer"
+    },
+    {
+      "id": "4",
+      "name": "Ferretería",
+      "description": "Insumos generales",
+      "type": "icon",
+      "value": "Sprout"
+    }
+  ]
 };
 
 export const INITIAL_PRODUCTS: Product[] = [
@@ -72,8 +127,8 @@ export const INITIAL_PRODUCTS: Product[] = [
 export const CATEGORIES: string[] = ['Todas', 'Repuestos', 'Tornillería', 'Ferretería', 'Herramientas', 'Varios'];
 
 export const THEME_COLORS = {
-  green: { bg: 'bg-emerald-600', text: 'text-emerald-600', border: 'border-emerald-600', hover: 'hover:bg-emerald-700', ring: 'focus:ring-emerald-500' },
-  blue: { bg: 'bg-blue-600', text: 'text-blue-600', border: 'border-blue-600', hover: 'hover:bg-blue-700', ring: 'focus:ring-blue-500' },
-  orange: { bg: 'bg-orange-600', text: 'text-orange-600', border: 'border-orange-600', hover: 'hover:bg-orange-700', ring: 'focus:ring-orange-500' },
+  green: { bg: 'bg-emerald-600', text: 'text-emerald-600', border: 'border-emerald-600', hover: 'hover:bg-emerald-700', ring: 'focus:ring-emerald-500', btnHover: 'hover:bg-emerald-700' },
+  blue: { bg: 'bg-blue-600', text: 'text-blue-600', border: 'border-blue-600', hover: 'hover:bg-blue-700', ring: 'focus:ring-blue-500', btnHover: 'hover:bg-blue-700' },
+  orange: { bg: 'bg-orange-600', text: 'text-orange-600', border: 'border-orange-600', hover: 'hover:bg-orange-700', ring: 'focus:ring-orange-500', btnHover: 'hover:bg-orange-700' },
   red: { bg: 'bg-red-600', text: 'text-red-600', border: 'border-red-600', hover: 'hover:bg-red-700', ring: 'focus:ring-red-500', btnHover: 'hover:bg-red-700' },
 };

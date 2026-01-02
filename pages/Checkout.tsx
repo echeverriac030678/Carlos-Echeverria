@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
-import { MessageCircle, CreditCard, CheckCircle } from 'lucide-react';
+import { CreditCard, CheckCircle, Send, Loader2 } from 'lucide-react';
 
 const Checkout: React.FC = () => {
-  const { cart, clearCart, getThemeClasses, siteConfig } = useStore();
+  const { cart, clearCart, getThemeClasses } = useStore();
   const theme = getThemeClasses();
   const navigate = useNavigate();
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
+    idRuc: '',      // Mapped to IDRUC
+    email: '',      // Mapped to CORREO
+    phone: '',      // Mapped to CELULAR
+    landline: '',   // Mapped to TELEFONO
+    address: '',    // Mapped to DIRECCION
+    province: '',   // Mapped to PROVINCIA
   });
 
   const [isProcessing, setIsProcessing] = useState(false);
@@ -24,30 +26,48 @@ const Checkout: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleWhatsAppOrder = (e: React.FormEvent) => {
+  const handleOrderSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
 
-    // Build WhatsApp Message
-    let message = `*Nuevo Pedido IDO*\n\n`;
-    message += `*Cliente:* ${formData.name}\n`;
-    message += `*Dirección:* ${formData.address}, ${formData.city}\n\n`;
-    message += `*Detalle:*\n`;
-    cart.forEach(item => {
-      message += `- ${item.quantity}x ${item.name}: $${(item.price * item.quantity).toFixed(2)}\n`;
-    });
-    message += `\n*TOTAL: $${total.toFixed(2)}*`;
+    // Preparar el resumen de productos
+    const productsSummary = cart.map(item => `${item.quantity}x ${item.name}`).join(', ');
+    
+    // Construcción del Payload con las claves exactas solicitadas
+    const payload = {
+      NOMBRE: formData.name,
+      IDRUC: formData.idRuc,
+      TELEFONO: formData.landline || "N/A", // Si está vacío se envía N/A
+      CELULAR: formData.phone,
+      CORREO: formData.email,
+      DIRECCION: formData.address,
+      PROVINCIA: formData.province,
+      PRODUCTO: productsSummary,
+      MONTO: total.toFixed(2)
+    };
 
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${siteConfig.contactPhone.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
+    try {
+      // Envío a Google Apps Script (URL ACTUALIZADA)
+      // mode: 'no-cors' es necesario para enviar datos a GAS desde el navegador sin errores CORS.
+      // La respuesta será opaca (status 0), por lo que asumimos éxito si no hay excepción de red.
+      await fetch("https://script.google.com/macros/s/AKfycbyfOz-pedsY0LInRiYx-RHXhkW302NqhcOMcN6nOJQpe4CWSEiUQn-aZE-ep-T5xuooaw/exec", {
+        method: "POST",
+        mode: "no-cors", 
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    // Simulate slight delay for UX
-    setTimeout(() => {
-      window.open(whatsappUrl, '_blank');
       setOrderComplete(true);
       clearCart();
+
+    } catch (error) {
+      console.error("Error al enviar el pedido:", error);
+      alert("Hubo un error al conectar con el servidor. Por favor intenta nuevamente.");
+    } finally {
       setIsProcessing(false);
-    }, 1500);
+    }
   };
 
   if (cart.length === 0 && !orderComplete) {
@@ -62,9 +82,9 @@ const Checkout: React.FC = () => {
           <div className={`w-20 h-20 ${theme.bg} rounded-full flex items-center justify-center mx-auto mb-6 text-white`}>
             <CheckCircle size={40} />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">¡Pedido Solicitado!</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">¡Pedido Recibido!</h2>
           <p className="text-gray-500 mb-8">
-            Hemos redirigido tu pedido a WhatsApp para coordinar el pago y envío.
+            Hemos registrado tu pedido correctamente. Te contactaremos pronto a tu celular o correo para coordinar el pago y la entrega.
           </p>
           <button
             onClick={() => navigate('/')}
@@ -84,11 +104,11 @@ const Checkout: React.FC = () => {
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-8">
-            <form onSubmit={handleWhatsAppOrder} className="space-y-6">
+            <form onSubmit={handleOrderSubmit} className="space-y-6">
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nombre Completo *</label>
                   <input
                     type="text"
                     name="name"
@@ -99,7 +119,22 @@ const Checkout: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                  <label htmlFor="idRuc" className="block text-sm font-medium text-gray-700 mb-1">Cédula o RUC *</label>
+                  <input
+                    type="text"
+                    name="idRuc"
+                    required
+                    placeholder="Ej: 8-888-888"
+                    className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                    value={formData.idRuc}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Celular *</label>
                   <input
                     type="tel"
                     name="phone"
@@ -109,10 +144,20 @@ const Checkout: React.FC = () => {
                     onChange={handleChange}
                   />
                 </div>
+                <div>
+                  <label htmlFor="landline" className="block text-sm font-medium text-gray-700 mb-1">Teléfono Fijo (Opcional)</label>
+                  <input
+                    type="tel"
+                    name="landline"
+                    className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                    value={formData.landline}
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico *</label>
                 <input
                   type="email"
                   name="email"
@@ -124,7 +169,7 @@ const Checkout: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">Dirección de Entrega</label>
+                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">Dirección Exacta *</label>
                 <textarea
                   name="address"
                   required
@@ -136,13 +181,14 @@ const Checkout: React.FC = () => {
               </div>
               
               <div>
-                <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">Ciudad / Estado</label>
+                <label htmlFor="province" className="block text-sm font-medium text-gray-700 mb-1">Provincia *</label>
                 <input
                   type="text"
-                  name="city"
+                  name="province"
                   required
+                  placeholder="Ej: Panamá, Chiriquí, etc."
                   className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                  value={formData.city}
+                  value={formData.province}
                   onChange={handleChange}
                 />
               </div>
@@ -156,25 +202,29 @@ const Checkout: React.FC = () => {
                  <button
                   type="submit"
                   disabled={isProcessing}
-                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white py-4 rounded-xl font-bold text-lg shadow-md transition-all disabled:opacity-70"
+                  className={`w-full flex items-center justify-center gap-2 ${theme.bg} ${theme.hover} text-white py-4 rounded-xl font-bold text-lg shadow-md transition-all disabled:opacity-70`}
                 >
-                  {isProcessing ? 'Procesando...' : (
+                  {isProcessing ? (
                     <>
-                      <MessageCircle size={24} /> Pedir por WhatsApp
+                      <Loader2 size={24} className="animate-spin" /> Procesando...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={24} /> Confirmar Pedido
                     </>
                   )}
                 </button>
                 <div className="text-center text-xs text-gray-500">
-                   Al hacer clic, se abrirá WhatsApp con los detalles de tu pedido.
+                   Al confirmar, enviaremos los datos de tu pedido para procesar el pago y envío.
                 </div>
                 
                 <button
                    type="button"
                    disabled
-                   className="w-full flex items-center justify-center gap-2 bg-gray-100 text-gray-400 py-3 rounded-xl font-semibold cursor-not-allowed"
-                   title="Integración Stripe/PayPal disponible en versión completa"
+                   className="w-full flex items-center justify-center gap-2 bg-gray-100 text-gray-400 py-3 rounded-xl font-semibold cursor-not-allowed opacity-50"
+                   title="Próximamente"
                 >
-                  <CreditCard size={20} /> Pagar con Tarjeta (Próximamente)
+                  <CreditCard size={20} /> Pago con Tarjeta (Próximamente)
                 </button>
               </div>
 

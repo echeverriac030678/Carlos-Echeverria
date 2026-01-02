@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Package, Settings as SettingsIcon, Plus, Edit, Trash, LogOut, AlertTriangle, Image as ImageIcon, ExternalLink, AlertCircle, Check } from 'lucide-react';
+import { Package, Settings as SettingsIcon, Plus, Edit, Trash, LogOut, AlertTriangle, Image as ImageIcon, ExternalLink, AlertCircle, Check, Link as LinkIcon, Home as HomeIcon, FileJson, Copy, X } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
-import { Product, Category, SiteConfig } from '../../types';
+import { Product, Category, SiteConfig, HomeCategory, QuickLink } from '../../types';
 import { THEME_COLORS } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,6 +35,10 @@ const AdminDashboard: React.FC = () => {
 
   // Settings Form State
   const [configForm, setConfigForm] = useState<SiteConfig>(siteConfig);
+  
+  // Export Modal State
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleOpenModal = (product?: Product) => {
     setIsAddingCategory(false);
@@ -89,7 +93,7 @@ const AdminDashboard: React.FC = () => {
   const handleSettingsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updateSiteConfig(configForm);
-    alert('Configuración actualizada');
+    alert('Configuración actualizada en el navegador.');
   };
 
   const handleLogout = () => {
@@ -97,10 +101,65 @@ const AdminDashboard: React.FC = () => {
     navigate('/admin');
   };
 
+  const generateConfigCode = () => {
+    return `import { Product, SiteConfig } from './types';
+
+export const INITIAL_SITE_CONFIG: SiteConfig = ${JSON.stringify(configForm, null, 2)};
+
+// ... (El resto del archivo constants.ts debe mantenerse igual, solo reemplaza INITIAL_SITE_CONFIG)`;
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(generateConfigCode());
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   // Helper to detect if user pasted a website link instead of an image
   const isWebsiteLink = (url: string) => {
     if (!url) return false;
     return url.includes('canva.site') || url.includes('canva.com/design');
+  };
+
+  // Helper for managing Home Categories in Settings
+  const updateHomeCategory = (index: number, field: keyof HomeCategory, value: any) => {
+    const updated = [...(configForm.homeCategories || [])];
+    updated[index] = { ...updated[index], [field]: value };
+    setConfigForm({ ...configForm, homeCategories: updated });
+  };
+
+  const addHomeCategory = () => {
+    const newCat: HomeCategory = {
+       id: Date.now().toString(),
+       name: 'Nueva Categoría',
+       description: 'Descripción breve',
+       type: 'icon',
+       value: 'Settings'
+    };
+    setConfigForm({ ...configForm, homeCategories: [...(configForm.homeCategories || []), newCat] });
+  };
+
+  const removeHomeCategory = (index: number) => {
+     const updated = [...(configForm.homeCategories || [])];
+     updated.splice(index, 1);
+     setConfigForm({ ...configForm, homeCategories: updated });
+  };
+
+  // Helper for managing Quick Links in Settings
+  const updateQuickLink = (index: number, field: keyof QuickLink, value: string) => {
+    const updated = [...(configForm.quickLinks || [])];
+    updated[index] = { ...updated[index], [field]: value };
+    setConfigForm({ ...configForm, quickLinks: updated });
+  };
+
+  const addQuickLink = () => {
+    setConfigForm({ ...configForm, quickLinks: [...(configForm.quickLinks || []), { text: 'Nuevo Enlace', url: '/' }] });
+  };
+
+  const removeQuickLink = (index: number) => {
+    const updated = [...(configForm.quickLinks || [])];
+    updated.splice(index, 1);
+    setConfigForm({ ...configForm, quickLinks: updated });
   };
 
   return (
@@ -205,149 +264,122 @@ const AdminDashboard: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 max-w-3xl">
-            <h2 className="text-xl font-bold text-gray-800 mb-6">Configuración del Sitio</h2>
-            <form onSubmit={handleSettingsSubmit} className="space-y-8">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <SettingsIcon /> Configuración del Sitio
+            </h2>
+            <form onSubmit={handleSettingsSubmit} className="space-y-10">
               
-              {/* BRAND COLOR */}
-              <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
-                <label className="block text-sm font-bold text-gray-700 mb-3">Color Principal de la Marca</label>
-                <div className="flex gap-4">
-                  {Object.keys(THEME_COLORS).map((color) => (
-                    <button
-                      key={color}
-                      type="button"
-                      onClick={() => setConfigForm({...configForm, primaryColor: color as any})}
-                      className={`w-10 h-10 rounded-full border-2 ${
-                        configForm.primaryColor === color ? 'border-gray-900 scale-110' : 'border-transparent'
-                      } ${THEME_COLORS[color as keyof typeof THEME_COLORS].bg} transition-all`}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* IMAGES SECTION */}
+              {/* SECTION: BRAND & COLOR */}
               <div className="space-y-6">
-                <h3 className="text-lg font-bold text-gray-800 border-b pb-2">Imágenes y Marca</h3>
+                <h3 className="text-lg font-bold text-gray-800 border-b pb-2">Marca y Colores</h3>
                 
-                {/* HERO IMAGE */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Imagen Principal (Hero Banner)</label>
-                  <div className="flex gap-4 items-start">
-                    <div className="flex-grow">
-                      <input
-                        type="text"
-                        className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        value={configForm.heroImageUrl}
-                        onChange={(e) => setConfigForm({...configForm, heroImageUrl: e.target.value})}
-                        placeholder="https://..."
+                <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                  <label className="block text-sm font-bold text-gray-700 mb-3">Color Principal</label>
+                  <div className="flex gap-4">
+                    {Object.keys(THEME_COLORS).map((color) => (
+                      <button
+                        key={color}
+                        type="button"
+                        onClick={() => setConfigForm({...configForm, primaryColor: color as any})}
+                        className={`w-10 h-10 rounded-full border-2 ${
+                          configForm.primaryColor === color ? 'border-gray-900 scale-110' : 'border-transparent'
+                        } ${THEME_COLORS[color as keyof typeof THEME_COLORS].bg} transition-all`}
+                        title={color}
                       />
-                      {isWebsiteLink(configForm.heroImageUrl) && (
-                        <div className="mt-2 text-xs text-amber-700 font-medium">
-                          ⚠️ Parece un enlace a la web de Canva. Recuerda usar: Click Derecho &gt; Copiar dirección de imagen.
-                        </div>
-                      )}
-                    </div>
-                    {configForm.heroImageUrl && !isWebsiteLink(configForm.heroImageUrl) && (
-                       <img src={configForm.heroImageUrl} className="w-16 h-10 object-cover rounded border" alt="Preview" />
-                    )}
+                    ))}
                   </div>
                 </div>
 
-                {/* LOGO CONFIGURATION */}
-                <div className="grid grid-cols-1 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Logo URL (Opcional)</label>
-                    <p className="text-xs text-gray-500 mb-2">Se usará tanto en el Menú como en el Pie de página.</p>
-                    <div className="flex gap-4 items-start">
-                      <div className="flex-grow">
+                {/* LOGO SETTINGS */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="md:col-span-3">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">URL del Logo (Opcional)</label>
+                    <div className="flex gap-4 items-center">
+                      <div className="relative flex-grow">
                         <input
                           type="text"
-                          className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                          className="w-full rounded-lg border-gray-300 border px-3 py-2 pl-8 bg-white text-gray-900"
                           value={configForm.logoUrl || ''}
                           onChange={(e) => setConfigForm({...configForm, logoUrl: e.target.value})}
                           placeholder="https://..."
                         />
-                        {isWebsiteLink(configForm.logoUrl || '') && (
-                          <div className="mt-2 text-xs text-amber-700 font-medium">
-                            ⚠️ Parece un enlace a la web de Canva. Recuerda usar: Click Derecho &gt; Copiar dirección de imagen.
-                          </div>
-                        )}
+                        <ImageIcon className="absolute left-2.5 top-2.5 text-gray-400" size={16} />
                       </div>
-                      
-                      {configForm.logoUrl && !isWebsiteLink(configForm.logoUrl) && (
-                        <div className="p-1 bg-white border rounded flex items-center justify-center min-w-[60px]">
-                           <img 
-                              src={configForm.logoUrl} 
-                              style={{ height: `40px` }}
-                              className="w-auto object-contain" 
-                              alt="Logo Preview" 
-                            />
+                      {configForm.logoUrl && (
+                        <div className="h-10 w-10 bg-gray-100 rounded border flex items-center justify-center p-1">
+                           <img src={configForm.logoUrl} alt="Logo" className="max-h-full max-w-full object-contain" />
                         </div>
                       )}
                     </div>
+                    <p className="text-xs text-gray-500 mt-1">Si se deja vacío, se mostrará el nombre de la tienda con un icono.</p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* NAV LOGO SLIDER */}
-                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-                      <div className="flex justify-between items-center mb-2">
-                         <label className="block text-sm font-medium text-gray-700">Tamaño Logo (Menú)</label>
-                         <span className="text-xs font-bold bg-white border px-2 py-1 rounded text-gray-600">
-                           {configForm.logoHeight || 40}px
-                         </span>
-                      </div>
-                      <input
-                        type="range"
-                        min="20"
-                        max="120"
-                        step="5"
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-gray-800"
-                        value={configForm.logoHeight || 40}
-                        onChange={(e) => setConfigForm({...configForm, logoHeight: parseInt(e.target.value)})}
-                      />
-                    </div>
-
-                    {/* FOOTER LOGO SLIDER */}
-                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-                      <div className="flex justify-between items-center mb-2">
-                         <label className="block text-sm font-medium text-gray-700">Tamaño Logo (Pie de Página)</label>
-                         <span className="text-xs font-bold bg-white border px-2 py-1 rounded text-gray-600">
-                           {configForm.footerLogoHeight || 60}px
-                         </span>
-                      </div>
-                      <input
-                        type="range"
-                        min="20"
-                        max="150"
-                        step="5"
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-gray-800"
-                        value={configForm.footerLogoHeight || 60}
-                        onChange={(e) => setConfigForm({...configForm, footerLogoHeight: parseInt(e.target.value)})}
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Altura Logo Header (px)</label>
+                    <input
+                      type="number"
+                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
+                      value={configForm.logoHeight || 40}
+                      onChange={(e) => setConfigForm({...configForm, logoHeight: parseInt(e.target.value) || 40})}
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Altura Logo Footer (px)</label>
+                    <input
+                      type="number"
+                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
+                      value={configForm.footerLogoHeight || 60}
+                      onChange={(e) => setConfigForm({...configForm, footerLogoHeight: parseInt(e.target.value) || 60})}
+                    />
                   </div>
                 </div>
-              </div>
 
-              {/* TEXT SECTION */}
-              <div className="space-y-6">
-                <h3 className="text-lg font-bold text-gray-800 border-b pb-2">Textos</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* HERO SETTINGS */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
+                   <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Imagen Principal (Hero URL)</label>
+                    <div className="flex gap-4 items-start">
+                      <div className="relative flex-grow">
+                         <input
+                          type="text"
+                          className="w-full rounded-lg border-gray-300 border px-3 py-2 pl-8 bg-white text-gray-900"
+                          value={configForm.heroImageUrl}
+                          onChange={(e) => setConfigForm({...configForm, heroImageUrl: e.target.value})}
+                        />
+                        <ImageIcon className="absolute left-2.5 top-2.5 text-gray-400" size={16} />
+                      </div>
+                      {configForm.heroImageUrl && (
+                         <img src={configForm.heroImageUrl} alt="Hero" className="w-20 h-12 object-cover rounded border" />
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Altura del Hero (px)</label>
+                     <input
+                      type="number"
+                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
+                      value={configForm.heroHeight || 500}
+                      onChange={(e) => setConfigForm({...configForm, heroHeight: parseInt(e.target.value) || 500})}
+                    />
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Título Hero</label>
                     <input
                       type="text"
-                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
                       value={configForm.heroTitle}
                       onChange={(e) => setConfigForm({...configForm, heroTitle: e.target.value})}
                     />
                   </div>
-                  <div>
+                  <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Subtítulo Hero</label>
                     <input
                       type="text"
-                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
                       value={configForm.heroSubtitle}
                       onChange={(e) => setConfigForm({...configForm, heroSubtitle: e.target.value})}
                     />
@@ -355,15 +387,51 @@ const AdminDashboard: React.FC = () => {
                 </div>
               </div>
 
-              {/* CONTACT SECTION */}
-              <div className="space-y-6">
-                <h3 className="text-lg font-bold text-gray-800 border-b pb-2">Contacto</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               {/* SECTION: COMPANY TEXTS (NEW) */}
+               <div className="space-y-6">
+                <h3 className="text-lg font-bold text-gray-800 border-b pb-2">Textos Corporativos (Sobre Nosotros)</h3>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Descripción de la Empresa</label>
+                  <textarea
+                    rows={4}
+                    className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
+                    value={configForm.companyDescription || ''}
+                    onChange={(e) => setConfigForm({...configForm, companyDescription: e.target.value})}
+                    placeholder="Descripción general que aparece en 'Quiénes Somos'..."
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Misión</label>
+                  <textarea
+                    rows={3}
+                    className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
+                    value={configForm.companyMission || ''}
+                    onChange={(e) => setConfigForm({...configForm, companyMission: e.target.value})}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Visión</label>
+                  <textarea
+                    rows={3}
+                    className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
+                    value={configForm.companyVision || ''}
+                    onChange={(e) => setConfigForm({...configForm, companyVision: e.target.value})}
+                  />
+                </div>
+               </div>
+
+               {/* SECTION: CONTACT INFO */}
+               <div className="space-y-6">
+                <h3 className="text-lg font-bold text-gray-800 border-b pb-2">Información de Contacto</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
                     <input
                       type="text"
-                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
                       value={configForm.contactPhone}
                       onChange={(e) => setConfigForm({...configForm, contactPhone: e.target.value})}
                     />
@@ -372,24 +440,227 @@ const AdminDashboard: React.FC = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                     <input
                       type="text"
-                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
                       value={configForm.contactEmail}
                       onChange={(e) => setConfigForm({...configForm, contactEmail: e.target.value})}
+                    />
+                  </div>
+                   <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Dirección del Local</label>
+                    <input
+                      type="text"
+                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
+                      value={configForm.address || ''}
+                      onChange={(e) => setConfigForm({...configForm, address: e.target.value})}
+                      placeholder="Ej: Zona Industrial II..."
                     />
                   </div>
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className={`w-full py-4 rounded-lg text-white font-bold text-lg shadow-lg ${theme.bg} ${theme.hover} transition-all transform hover:scale-[1.01]`}
-              >
-                Guardar Configuración
-              </button>
+               {/* SECTION: HOME CATEGORIES */}
+               <div className="space-y-6">
+                <div className="flex justify-between items-center border-b pb-2">
+                   <h3 className="text-lg font-bold text-gray-800">Categorías de Inicio (Visuales)</h3>
+                   <button type="button" onClick={addHomeCategory} className="text-sm flex items-center gap-1 text-blue-600 hover:underline">
+                      <Plus size={16} /> Agregar
+                   </button>
+                </div>
+                
+                <div className="space-y-4">
+                  {(configForm.homeCategories || []).map((cat, index) => (
+                    <div key={index} className="bg-gray-50 p-4 rounded-lg border border-gray-200 flex flex-col md:flex-row gap-4 items-start relative group">
+                      <button 
+                        type="button" 
+                        onClick={() => removeHomeCategory(index)} 
+                        className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
+                        title="Eliminar"
+                      >
+                        <Trash size={16} />
+                      </button>
+                      
+                      <div className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                         <div>
+                            <label className="text-xs font-semibold text-gray-500 uppercase">Nombre</label>
+                            <input 
+                              type="text" 
+                              className="w-full border rounded px-2 py-1 text-sm bg-white text-gray-900"
+                              value={cat.name}
+                              onChange={(e) => updateHomeCategory(index, 'name', e.target.value)}
+                            />
+                         </div>
+                         <div>
+                            <label className="text-xs font-semibold text-gray-500 uppercase">Descripción</label>
+                            <input 
+                              type="text" 
+                              className="w-full border rounded px-2 py-1 text-sm bg-white text-gray-900"
+                              value={cat.description}
+                              onChange={(e) => updateHomeCategory(index, 'description', e.target.value)}
+                            />
+                         </div>
+                         <div>
+                            <label className="text-xs font-semibold text-gray-500 uppercase">Tipo</label>
+                            <select 
+                              className="w-full border rounded px-2 py-1 text-sm bg-white text-gray-900"
+                              value={cat.type}
+                              onChange={(e) => updateHomeCategory(index, 'type', e.target.value)}
+                            >
+                              <option value="icon">Icono Predeterminado</option>
+                              <option value="image">Imagen Personalizada (URL)</option>
+                            </select>
+                         </div>
+                         <div>
+                            <label className="text-xs font-semibold text-gray-500 uppercase">
+                              {cat.type === 'icon' ? 'Seleccionar Icono' : 'URL de Imagen'}
+                            </label>
+                            {cat.type === 'icon' ? (
+                               <select 
+                                className="w-full border rounded px-2 py-1 text-sm bg-white text-gray-900"
+                                value={cat.value}
+                                onChange={(e) => updateHomeCategory(index, 'value', e.target.value)}
+                               >
+                                 <option value="Settings">Engranaje (Settings)</option>
+                                 <option value="Wrench">Llave (Wrench)</option>
+                                 <option value="Hammer">Martillo (Hammer)</option>
+                                 <option value="Sprout">Hoja/Campo (Sprout)</option>
+                                 <option value="Tractor">Tractor</option>
+                                 <option value="Truck">Camión</option>
+                                 <option value="Package">Paquete</option>
+                                 <option value="ShoppingBag">Bolsa</option>
+                                 <option value="Zap">Rayo</option>
+                               </select>
+                            ) : (
+                              <input 
+                                type="text" 
+                                className="w-full border rounded px-2 py-1 text-sm bg-white text-gray-900"
+                                placeholder="https://..."
+                                value={cat.value}
+                                onChange={(e) => updateHomeCategory(index, 'value', e.target.value)}
+                              />
+                            )}
+                         </div>
+                      </div>
+                      
+                      {/* Preview */}
+                      <div className="w-16 h-16 flex-shrink-0 bg-white rounded border flex items-center justify-center">
+                         {cat.type === 'image' && cat.value ? (
+                           <img src={cat.value} className="w-full h-full object-cover rounded" alt="Preview" />
+                         ) : (
+                           <HomeIcon className="text-gray-400" />
+                         )}
+                         {cat.type === 'icon' && <span className="text-xs text-gray-500">{cat.value}</span>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+               {/* SECTION: FOOTER QUICK LINKS */}
+               <div className="space-y-6">
+                <div className="flex justify-between items-center border-b pb-2">
+                   <h3 className="text-lg font-bold text-gray-800">Enlaces Rápidos (Pie de Página)</h3>
+                   <button type="button" onClick={addQuickLink} className="text-sm flex items-center gap-1 text-blue-600 hover:underline">
+                      <Plus size={16} /> Agregar
+                   </button>
+                </div>
+                
+                <div className="space-y-3">
+                  {(configForm.quickLinks || []).map((link, index) => (
+                    <div key={index} className="flex gap-2 items-center">
+                      <input 
+                        type="text" 
+                        className="flex-1 border rounded px-3 py-2 text-sm bg-white text-gray-900"
+                        placeholder="Texto del enlace"
+                        value={link.text}
+                        onChange={(e) => updateQuickLink(index, 'text', e.target.value)}
+                      />
+                      <input 
+                        type="text" 
+                        className="flex-1 border rounded px-3 py-2 text-sm bg-white text-gray-900"
+                        placeholder="URL (Ej: /catalog o https://...)"
+                        value={link.url}
+                        onChange={(e) => updateQuickLink(index, 'url', e.target.value)}
+                      />
+                      <button 
+                        type="button" 
+                        onClick={() => removeQuickLink(index)} 
+                        className="p-2 text-gray-400 hover:text-red-500"
+                      >
+                        <Trash size={18} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* SAVE & EXPORT BUTTONS */}
+              <div className="sticky bottom-4 bg-white p-4 shadow-xl border-t rounded-xl flex flex-col md:flex-row gap-4">
+                 <button
+                  type="submit"
+                  className={`flex-1 py-4 rounded-lg text-white font-bold text-lg shadow-lg ${theme.bg} ${theme.hover} transition-all transform hover:scale-[1.01]`}
+                >
+                  Guardar Configuración Completa
+                </button>
+                
+                <button
+                  type="button"
+                  onClick={() => setShowExportModal(true)}
+                  className="flex-shrink-0 bg-gray-800 text-white px-6 py-4 rounded-lg font-bold flex items-center gap-2 hover:bg-gray-700 transition-colors"
+                  title="Obtener código para guardar permanentemente en el proyecto"
+                >
+                  <FileJson size={20} /> Exportar a Código
+                </button>
+              </div>
+
             </form>
           </div>
         )}
       </div>
+
+      {/* Export Modal */}
+      {showExportModal && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col">
+            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <FileJson className="text-blue-600" /> Exportar Configuración
+                </h3>
+                <p className="text-sm text-gray-500 mt-1">
+                  Copia este código y reemplaza la constante <code>INITIAL_SITE_CONFIG</code> en tu archivo <code>constants.ts</code>.
+                </p>
+              </div>
+              <button onClick={() => setShowExportModal(false)} className="text-gray-400 hover:text-gray-600">
+                <X size={24} />
+              </button>
+            </div>
+            
+            <div className="p-0 overflow-hidden flex-grow relative bg-gray-900">
+              <textarea 
+                readOnly
+                className="w-full h-96 p-6 bg-gray-900 text-green-400 font-mono text-sm focus:outline-none resize-none"
+                value={generateConfigCode()}
+              />
+              <button
+                onClick={copyToClipboard}
+                className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors border border-white/20 backdrop-blur-md"
+              >
+                {copied ? <Check size={18} className="text-green-400" /> : <Copy size={18} />}
+                {copied ? '¡Copiado!' : 'Copiar Código'}
+              </button>
+            </div>
+            
+            <div className="p-6 border-t border-gray-100 bg-gray-50 rounded-b-xl flex justify-end">
+              <button 
+                onClick={() => setShowExportModal(false)}
+                className="px-6 py-2 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 transition-colors"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Product Modal */}
       {isModalOpen && (

@@ -10,6 +10,14 @@ const Footer: React.FC = () => {
   // Default value for footer logo height if not set
   const footerLogoHeight = siteConfig.footerLogoHeight || 60;
 
+  // Use config quickLinks or fallback if empty (backward compatibility)
+  const quickLinks = siteConfig.quickLinks && siteConfig.quickLinks.length > 0 ? siteConfig.quickLinks : [
+    { text: "Inicio", url: "/" },
+    { text: "Catálogo de Productos", url: "/catalog" },
+    { text: "Mi Carrito", url: "/cart" },
+    { text: "Tornillería al Mayor", url: "/catalog?category=Tornillería" }
+  ];
+
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -73,10 +81,19 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Enlaces Rápidos</h3>
             <ul className="space-y-2">
-              <li><Link to="/" className="hover:text-white transition-colors">Inicio</Link></li>
-              <li><Link to="/catalog" className="hover:text-white transition-colors">Catálogo de Productos</Link></li>
-              <li><Link to="/cart" className="hover:text-white transition-colors">Mi Carrito</Link></li>
-              <li><Link to="/catalog?category=Tornillería" className="hover:text-white transition-colors">Tornillería al Mayor</Link></li>
+              {quickLinks.map((link, index) => (
+                <li key={index}>
+                  {link.url.startsWith('/') ? (
+                    <Link to={link.url} className="hover:text-white transition-colors">
+                      {link.text}
+                    </Link>
+                  ) : (
+                    <a href={link.url} className="hover:text-white transition-colors">
+                      {link.text}
+                    </a>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -86,7 +103,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-2 text-sm">
               <li>Email: {siteConfig.contactEmail}</li>
               <li>Teléfono: {siteConfig.contactPhone}</li>
-              <li>Dirección: Zona Industrial II, Galpón 4-A</li>
+              <li>Dirección: {siteConfig.address || "Zona Industrial II, Galpón 4-A"}</li>
             </ul>
           </div>
         </div>

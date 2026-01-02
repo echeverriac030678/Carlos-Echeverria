@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Wrench, Sprout, Hammer, Settings } from 'lucide-react';
+import { ArrowRight, Wrench, Sprout, Hammer, Settings, Tractor, Truck, Package, ShoppingBag, Zap } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 import ProductCard from '../components/ProductCard';
 
@@ -12,17 +12,21 @@ const Home: React.FC = () => {
   // Get 4 featured products
   const featuredProducts = products.slice(0, 4);
 
-  const categories = [
-    { name: 'Repuestos', icon: <Settings size={32} />, desc: 'Para maquinaria 43cc/52cc' },
-    { name: 'Tornillería', icon: <Wrench size={32} />, desc: 'Alta resistencia industrial' },
-    { name: 'Herramientas', icon: <Hammer size={32} />, desc: 'Mano de obra eficiente' },
-    { name: 'Ferretería', icon: <Sprout size={32} />, desc: 'Insumos generales' },
-  ];
+  // Icon Mapping for dynamic rendering
+  const IconMap: Record<string, React.FC<any>> = {
+    Settings, Wrench, Hammer, Sprout, Tractor, Truck, Package, ShoppingBag, Zap
+  };
+
+  const categories = siteConfig.homeCategories || [];
+  const heroHeight = siteConfig.heroHeight || 500;
 
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[500px] flex items-center justify-center text-center overflow-hidden">
+      <section 
+        className="relative flex items-center justify-center text-center overflow-hidden"
+        style={{ height: `${heroHeight}px` }}
+      >
         <div className="absolute inset-0">
           <img
             src={siteConfig.heroImageUrl}
@@ -57,19 +61,27 @@ const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {categories.map((cat) => (
-              <div 
-                key={cat.name}
-                onClick={() => navigate(`/catalog?category=${cat.name}`)}
-                className="group p-6 bg-gray-50 rounded-2xl cursor-pointer hover:bg-white hover:shadow-xl border border-transparent hover:border-gray-100 transition-all duration-300 text-center"
-              >
-                <div className={`w-16 h-16 mx-auto mb-4 rounded-full ${theme.bg} bg-opacity-10 flex items-center justify-center ${theme.text} group-hover:bg-opacity-20 transition-colors`}>
-                  {cat.icon}
+            {categories.map((cat) => {
+              const IconComponent = IconMap[cat.value] || Settings;
+
+              return (
+                <div 
+                  key={cat.id}
+                  onClick={() => navigate(`/catalog?category=${cat.name}`)}
+                  className="group p-6 bg-gray-50 rounded-2xl cursor-pointer hover:bg-white hover:shadow-xl border border-transparent hover:border-gray-100 transition-all duration-300 text-center"
+                >
+                  <div className={`w-20 h-20 mx-auto mb-4 rounded-full ${theme.bg} bg-opacity-10 flex items-center justify-center ${theme.text} group-hover:bg-opacity-20 transition-colors overflow-hidden`}>
+                    {cat.type === 'image' ? (
+                      <img src={cat.value} alt={cat.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <IconComponent size={32} />
+                    )}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{cat.name}</h3>
+                  <p className="text-sm text-gray-500">{cat.description}</p>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{cat.name}</h3>
-                <p className="text-sm text-gray-500">{cat.desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
