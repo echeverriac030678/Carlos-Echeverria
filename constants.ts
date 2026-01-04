@@ -5,18 +5,16 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
   "heroSubtitle": "Repuestos agrícolas, tornillería y ferretería de alta calidad.",
   "heroImageUrl": "https://desbrozadora.my.canva.site/dag9nobbu2c/_assets/media/bffb70dbe5b62a71ba6f52aa7e33eee9.png",
   "heroHeight": 600,
-  "logoUrl": "",
-  "logoHeight": 40,
-  "footerLogoHeight": 60,
+  "logoUrl": "https://desbrozadora.my.canva.site/dag9niwpsgq/_assets/media/a080cbc0c4aa08c08694e711a8d9d7e2.png",
+  "logoHeight": 85,
+  "footerLogoHeight": 75,
   "primaryColor": "green",
-  "contactPhone": "+1234567890",
+  "contactPhone": "+507 6753-9193",
   "contactEmail": "info@idopa.shop",
-  "address": "Zona Industrial II, Galpón 4-A",
-  
+  "address": "David, Chiriquí, Panamá.",
   "companyDescription": "Inversiones y Desarrollo Original (IDO) es una empresa dedicada a la comercialización y distribución de repuestos agrícolas, maquinaria, ferretería y tornillería especializada. Nacimos con el propósito de cubrir la necesidad de insumos de alta calidad para el trabajador del campo y la industria local.",
   "companyMission": "Proveer al sector agroindustrial de repuestos, herramientas y soluciones confiables que maximicen su productividad. Nos esforzamos por ofrecer un servicio ágil, asesoría técnica experta y precios competitivos, construyendo relaciones de confianza a largo plazo con nuestros clientes y aliados comerciales.",
   "companyVision": "Consolidarnos como el referente líder a nivel nacional en el suministro de repuestos, maquinarias e insumos agrícolas, reconocidos por nuestra innovación, destacando por un servicio técnico transparente y humano. Aspiramos a ser una empresa que inspire a otros a través de su fe, demostrando que el éxito comercial y el servicio al prójimo caminan de la mano.",
-
   "quickLinks": [
     {
       "text": "Inicio",
@@ -39,16 +37,16 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
     {
       "id": "1",
       "name": "Repuestos",
-      "description": "Para maquinaria 43cc/52cc",
-      "type": "icon",
-      "value": "Settings"
+      "description": "Desbrozadoras, Motosierras, Motobombas, Fumigadoras y Generadores",
+      "type": "image",
+      "value": "\thttps://desbrozadora.my.canva.site/dag9ttfpbvo/_assets/media/e36af30325ec8b51d8da10d278cf0186.png"
     },
     {
       "id": "2",
       "name": "Tornillería",
-      "description": "Alta resistencia industrial",
-      "type": "icon",
-      "value": "Wrench"
+      "description": "Tornilleria en general",
+      "type": "image",
+      "value": "\thttps://desbrozadora.my.canva.site/dag9trdgyue/_assets/media/5d3a35a39252dfe2c87f977dc5e3be30.png"
     },
     {
       "id": "3",
@@ -66,6 +64,8 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
     }
   ]
 };
+
+// ... (El resto del archivo constants.ts debe mantenerse igual, solo reemplaza INITIAL_SITE_CONFIG)
 
 export const INITIAL_PRODUCTS: Product[] = [
   {
