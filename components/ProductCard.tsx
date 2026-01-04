@@ -11,6 +11,18 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart, getThemeClasses } = useStore();
   const theme = getThemeClasses();
+  
+  const hasVariants = product.variants && product.variants.length > 0;
+  
+  // Calculate display price (lowest if variants, else main price)
+  const displayPrice = hasVariants 
+    ? Math.min(...product.variants!.map(v => v.price))
+    : product.price;
+
+  // Calculate display stock
+  const displayStock = hasVariants
+    ? product.variants!.reduce((acc, v) => acc + v.stock, 0)
+    : product.stock;
 
   return (
     <div className="group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
@@ -21,12 +33,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x400?text=Sin+Imagen'; }}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
         />
-        {product.stock <= 5 && product.stock > 0 && (
+        {displayStock <= 5 && displayStock > 0 && (
           <span className="absolute top-2 right-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">
             Pocas unidades
           </span>
         )}
-        {product.stock === 0 && (
+        {displayStock === 0 && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             <span className="text-white font-bold px-3 py-1 border-2 border-white rounded">AGOTADO</span>
           </div>
@@ -42,13 +54,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </Link>
         
         <div className="flex items-center justify-between mt-4">
-          <span className={`text-xl font-bold ${theme.text}`}>
-            ${product.price.toFixed(2)}
-          </span>
+          <div className="flex flex-col">
+            {hasVariants && <span className="text-xs text-gray-500">Desde</span>}
+            <span className={`text-xl font-bold ${theme.text}`}>
+              ${displayPrice.toFixed(2)}
+            </span>
+          </div>
           
           <button
-            onClick={() => addToCart(product, 1)}
-            disabled={product.stock === 0}
+            onClick={() => {
+              // If variants exist, adding directly from card adds the first variant or redirects? 
+              // Better to redirect to details if variants exist to avoid confusion
+              if (hasVariants) {
+                 window.location.hash = `/product/${product.id}`;
+              } else {
+                 addToCart(product, 1);
+              }
+            }}
+            disabled={displayStock === 0}
             className={`p-2 rounded-full ${theme.bg} text-white ${theme.hover} transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
             aria-label="Añadir al carrito"
           >

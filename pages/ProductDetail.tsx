@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Minus, Plus, ShoppingCart, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Minus, Plus, ShoppingCart, ArrowLeft, CheckCircle, ChevronDown } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
+import { ProductVariant } from '../types';
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,6 +13,14 @@ const ProductDetail: React.FC = () => {
   const product = products.find(p => p.id === id);
   const [quantity, setQuantity] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
+
+  // Initialize selected variant if product has them
+  useEffect(() => {
+    if (product?.variants && product.variants.length > 0) {
+      setSelectedVariant(product.variants[0]);
+    }
+  }, [product]);
 
   if (!product) {
     return (
@@ -27,13 +36,24 @@ const ProductDetail: React.FC = () => {
   }
 
   const handleAddToCart = () => {
-    addToCart(product, quantity);
+    if (product.variants && product.variants.length > 0 && !selectedVariant) {
+      alert("Por favor selecciona una opción.");
+      return;
+    }
+    
+    // If variants exist, use the selected variant, otherwise undefined
+    addToCart(product, quantity, selectedVariant || undefined);
+    
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
   const increment = () => setQuantity(q => q + 1);
   const decrement = () => setQuantity(q => (q > 1 ? q - 1 : 1));
+
+  // Determine current price and stock based on selection or base product
+  const currentPrice = selectedVariant ? selectedVariant.price : product.price;
+  const currentStock = selectedVariant ? selectedVariant.stock : product.stock;
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -72,9 +92,32 @@ const ProductDetail: React.FC = () => {
                 {product.description}
               </p>
 
+              {/* Variants Selector */}
+              {product.variants && product.variants.length > 0 && (
+                <div className="mb-8">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Selecciona una opción:</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {product.variants.map((v) => (
+                      <button
+                        key={v.id}
+                        onClick={() => setSelectedVariant(v)}
+                        className={`px-4 py-3 rounded-lg border text-left transition-all ${
+                          selectedVariant?.id === v.id
+                            ? `${theme.border} ring-1 ${theme.ring} bg-gray-50`
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        <div className="font-semibold text-gray-900">{v.name}</div>
+                        <div className="text-sm text-gray-500">${v.price.toFixed(2)}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="flex items-end gap-4 mb-8">
                 <span className={`text-4xl font-bold ${theme.text}`}>
-                  ${product.price.toFixed(2)}
+                  ${currentPrice.toFixed(2)}
                 </span>
                 <span className="text-gray-500 mb-2">/ unidad</span>
               </div>
@@ -103,9 +146,10 @@ const ProductDetail: React.FC = () => {
                     </button>
                   </div>
                   
-                  {product.stock > 0 ? (
+                  {currentStock > 0 ? (
                     <span className="text-green-600 text-sm font-medium flex items-center">
-                      <CheckCircle size={16} className="mr-1" /> Disponibilidad inmediata
+                      <CheckCircle size={16} className="mr-1" /> 
+                      {product.variants ? `${currentStock} disponibles` : 'Disponibilidad inmediata'}
                     </span>
                   ) : (
                     <span className="text-red-500 text-sm font-medium">Agotado</span>
@@ -115,7 +159,7 @@ const ProductDetail: React.FC = () => {
 
               <button
                 onClick={handleAddToCart}
-                disabled={product.stock === 0}
+                disabled={currentStock === 0}
                 className={`w-full py-4 rounded-xl font-bold text-lg text-white shadow-lg flex items-center justify-center gap-3 transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ${theme.bg} ${theme.hover}`}
               >
                 <ShoppingCart size={24} />

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Product, CartItem, SiteConfig } from '../types';
+import { Product, CartItem, SiteConfig, ProductVariant } from '../types';
 import { INITIAL_PRODUCTS, INITIAL_SITE_CONFIG, CATEGORIES as INITIAL_CATEGORIES } from '../constants';
 
 interface StoreContextType {
@@ -7,9 +7,9 @@ interface StoreContextType {
   categories: string[];
   cart: CartItem[];
   siteConfig: SiteConfig;
-  addToCart: (product: Product, quantity: number) => void;
-  removeFromCart: (productId: string) => void;
-  updateCartQuantity: (productId: string, quantity: number) => void;
+  addToCart: (product: Product, quantity: number, variant?: ProductVariant) => void;
+  removeFromCart: (productId: string, variantId?: string) => void;
+  updateCartQuantity: (productId: string, quantity: number, variantId?: string) => void;
   clearCart: () => void;
   addProduct: (product: Product) => void;
   updateProduct: (product: Product) => void;
@@ -17,6 +17,7 @@ interface StoreContextType {
   addCategory: (category: string) => void;
   updateSiteConfig: (config: SiteConfig) => void;
   getThemeClasses: () => any;
+  resetStore: () => void;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -63,30 +64,44 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }, [siteConfig]);
 
   // Cart Logic
-  const addToCart = (product: Product, quantity: number) => {
+  const addToCart = (product: Product, quantity: number, variant?: ProductVariant) => {
     setCart(prev => {
-      const existing = prev.find(item => item.id === product.id);
+      // Create a unique key for comparison (Product ID + Variant ID if exists)
+      const existing = prev.find(item => 
+        item.id === product.id && 
+        (variant ? item.selectedVariant?.id === variant.id : !item.selectedVariant)
+      );
+
       if (existing) {
-        return prev.map(item => 
-          item.id === product.id 
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
+        return prev.map(item => {
+           const isMatch = item.id === product.id && 
+                           (variant ? item.selectedVariant?.id === variant.id : !item.selectedVariant);
+           return isMatch ? { ...item, quantity: item.quantity + quantity } : item;
+        });
       }
-      return [...prev, { ...product, quantity }];
+      return [...prev, { ...product, quantity, selectedVariant: variant }];
     });
   };
 
-  const removeFromCart = (productId: string) => {
-    setCart(prev => prev.filter(item => item.id !== productId));
+  const removeFromCart = (productId: string, variantId?: string) => {
+    setCart(prev => prev.filter(item => {
+      // Keep items that DO NOT match the ID and Variant criteria
+      const idMatch = item.id === productId;
+      const variantMatch = variantId ? item.selectedVariant?.id === variantId : !item.selectedVariant;
+      return !(idMatch && variantMatch);
+    }));
   };
 
-  const updateCartQuantity = (productId: string, quantity: number) => {
+  const updateCartQuantity = (productId: string, quantity: number, variantId?: string) => {
     if (quantity <= 0) {
-      removeFromCart(productId);
+      removeFromCart(productId, variantId);
       return;
     }
-    setCart(prev => prev.map(item => item.id === productId ? { ...item, quantity } : item));
+    setCart(prev => prev.map(item => {
+      const idMatch = item.id === productId;
+      const variantMatch = variantId ? item.selectedVariant?.id === variantId : !item.selectedVariant;
+      return (idMatch && variantMatch) ? { ...item, quantity } : item;
+    }));
   };
 
   const clearCart = () => setCart([]);
@@ -115,6 +130,15 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setSiteConfig(config);
   };
 
+  // Reset Logic
+  const resetStore = () => {
+    localStorage.removeItem('ido_products');
+    localStorage.removeItem('ido_categories');
+    localStorage.removeItem('ido_config');
+    // We reload to ensure clean state initialization from constants
+    window.location.reload();
+  };
+
   // Theme Helper
   const getThemeClasses = () => {
     // This connects to the THEME_COLORS constant, but imported dynamically to avoid circular dependencies if moved
@@ -133,7 +157,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       products, categories, cart, siteConfig,
       addToCart, removeFromCart, updateCartQuantity, clearCart,
       addProduct, updateProduct, deleteProduct, addCategory,
-      updateSiteConfig, getThemeClasses
+      updateSiteConfig, getThemeClasses, resetStore
     }}>
       {children}
     </StoreContext.Provider>

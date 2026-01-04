@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Package, Settings as SettingsIcon, Plus, Edit, Trash, LogOut, AlertTriangle, Image as ImageIcon, ExternalLink, AlertCircle, Check, FileJson, Download, X, Home as HomeIcon } from 'lucide-react';
+import { Package, Settings as SettingsIcon, Plus, Edit, Trash, LogOut, AlertTriangle, Image as ImageIcon, ExternalLink, AlertCircle, Check, FileJson, Download, X, Home as HomeIcon, Layers, RefreshCcw } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
-import { Product, Category, SiteConfig, HomeCategory, QuickLink } from '../../types';
+import { Product, Category, SiteConfig, HomeCategory, QuickLink, ProductVariant } from '../../types';
 import { THEME_COLORS } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard: React.FC = () => {
-  const { products, categories, addProduct, updateProduct, deleteProduct, addCategory, siteConfig, updateSiteConfig, getThemeClasses } = useStore();
+  const { products, categories, addProduct, updateProduct, deleteProduct, addCategory, siteConfig, updateSiteConfig, getThemeClasses, resetStore } = useStore();
   const theme = getThemeClasses();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'inventory' | 'settings'>('inventory');
@@ -21,9 +21,19 @@ const AdminDashboard: React.FC = () => {
     price: 0,
     category: 'Repuestos',
     imageUrl: '',
-    stock: 0
+    stock: 0,
+    variants: []
   };
   const [formData, setFormData] = useState<Product>(initialFormState);
+
+  // Variant Management State
+  const [hasVariants, setHasVariants] = useState(false);
+  const [newVariant, setNewVariant] = useState<ProductVariant>({
+    id: '',
+    name: '',
+    price: 0,
+    stock: 0
+  });
 
   // New Category State
   const [isAddingCategory, setIsAddingCategory] = useState(false);
@@ -32,6 +42,7 @@ const AdminDashboard: React.FC = () => {
   // Delete Confirmation State
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
+  const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
 
   // Settings Form State
   const [configForm, setConfigForm] = useState<SiteConfig>(siteConfig);
@@ -42,21 +53,48 @@ const AdminDashboard: React.FC = () => {
     if (product) {
       setEditingProduct(product);
       setFormData(product);
+      setHasVariants(!!(product.variants && product.variants.length > 0));
     } else {
       setEditingProduct(null);
       setFormData({ ...initialFormState, id: Date.now().toString() });
+      setHasVariants(false);
     }
+    // Reset variant input
+    setNewVariant({ id: '', name: '', price: 0, stock: 0 });
     setIsModalOpen(true);
   };
 
   const handleProductSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const finalProduct = { ...formData };
+    
+    // If variants are enabled, ensure price/stock reflects base or logic, 
+    // but typically we keep the form data as is or calculate totals.
+    // Here we just save what is in formData (which includes variants array).
+    if (!hasVariants) {
+        finalProduct.variants = [];
+    }
+
     if (editingProduct) {
-      updateProduct(formData);
+      updateProduct(finalProduct);
     } else {
-      addProduct(formData);
+      addProduct(finalProduct);
     }
     setIsModalOpen(false);
+  };
+
+  // Variant Helpers
+  const addVariant = () => {
+    if (!newVariant.name) return alert("Nombre de variante requerido");
+    const variantToAdd = { ...newVariant, id: Date.now().toString() };
+    const updatedVariants = [...(formData.variants || []), variantToAdd];
+    setFormData({ ...formData, variants: updatedVariants });
+    setNewVariant({ id: '', name: '', price: 0, stock: 0 }); // Reset
+  };
+
+  const removeVariant = (id: string) => {
+    const updatedVariants = (formData.variants || []).filter(v => v.id !== id);
+    setFormData({ ...formData, variants: updatedVariants });
   };
 
   const handleCreateCategory = () => {
@@ -254,42 +292,52 @@ ${themeColorsString}
                   <tr>
                     <th className="px-6 py-4 font-semibold">Producto</th>
                     <th className="px-6 py-4 font-semibold">Categoría</th>
-                    <th className="px-6 py-4 font-semibold">Precio</th>
+                    <th className="px-6 py-4 font-semibold">Precio / Vars</th>
                     <th className="px-6 py-4 font-semibold">Stock</th>
                     <th className="px-6 py-4 font-semibold text-right">Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {products.map(product => (
-                    <tr key={product.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 flex items-center gap-3">
-                        <img 
-                          src={product.imageUrl} 
-                          alt="" 
-                          className="w-10 h-10 rounded object-cover bg-gray-100" 
-                          onError={(e) => { e.currentTarget.src = 'https://placehold.co/100x100?text=Error'; }}
-                        />
-                        <span className="font-medium text-gray-900">{product.name}</span>
-                      </td>
-                      <td className="px-6 py-4 text-gray-600">{product.category}</td>
-                      <td className="px-6 py-4 font-medium text-gray-900">${product.price.toFixed(2)}</td>
-                      <td className="px-6 py-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${product.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                          {product.stock} un.
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex justify-end gap-2">
-                          <button onClick={() => handleOpenModal(product)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
-                            <Edit size={18} />
-                          </button>
-                          <button onClick={() => handleDeleteClick(product)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg">
-                            <Trash size={18} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                  {products.map(product => {
+                    const hasVars = product.variants && product.variants.length > 0;
+                    return (
+                      <tr key={product.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 flex items-center gap-3">
+                          <img 
+                            src={product.imageUrl} 
+                            alt="" 
+                            className="w-10 h-10 rounded object-cover bg-gray-100" 
+                            onError={(e) => { e.currentTarget.src = 'https://placehold.co/100x100?text=Error'; }}
+                          />
+                          <div>
+                            <span className="font-medium text-gray-900 block">{product.name}</span>
+                            {hasVars && <span className="text-xs text-blue-600 bg-blue-50 px-1 rounded">{product.variants?.length} Variantes</span>}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-gray-600">{product.category}</td>
+                        <td className="px-6 py-4 font-medium text-gray-900">
+                          {hasVars ? 'Variable' : `$${product.price.toFixed(2)}`}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                            (hasVars ? product.variants!.reduce((a,v) => a + v.stock, 0) : product.stock) > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                          }`}>
+                            {hasVars ? product.variants!.reduce((a,v) => a + v.stock, 0) : product.stock} un.
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <div className="flex justify-end gap-2">
+                            <button onClick={() => handleOpenModal(product)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                              <Edit size={18} />
+                            </button>
+                            <button onClick={() => handleDeleteClick(product)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg">
+                              <Trash size={18} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -643,6 +691,29 @@ ${themeColorsString}
                 </button>
               </div>
 
+              {/* DANGER ZONE */}
+              <div className="border-t border-red-200 mt-12 pt-8">
+                 <h3 className="text-red-600 font-bold mb-4 flex items-center gap-2">
+                   <AlertTriangle size={20} /> Zona de Peligro
+                 </h3>
+                 <div className="bg-red-50 border border-red-100 rounded-lg p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                   <div>
+                     <h4 className="font-bold text-red-800">Restablecer Inventario desde Código</h4>
+                     <p className="text-sm text-red-600 max-w-lg">
+                       Si has reemplazado el archivo <code>constants.ts</code> y no ves los cambios, usa este botón. 
+                       <br/><strong>Atención:</strong> Esto borrará cualquier cambio no guardado en el archivo.
+                     </p>
+                   </div>
+                   <button
+                     type="button"
+                     onClick={() => setIsResetConfirmOpen(true)}
+                     className="bg-white border border-red-300 text-red-600 px-4 py-2 rounded-lg hover:bg-red-50 font-medium whitespace-nowrap flex items-center gap-2"
+                   >
+                     <RefreshCcw size={18} /> Restablecer Fábrica / Cargar Código
+                   </button>
+                 </div>
+              </div>
+
             </form>
           </div>
         )}
@@ -667,16 +738,96 @@ ${themeColorsString}
                 <textarea required className="w-full border border-gray-300 rounded-lg p-2.5 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none" rows={3} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Precio</label>
-                  <input required type="number" step="0.01" className="w-full border border-gray-300 rounded-lg p-2.5 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none" value={formData.price} onChange={e => setFormData({...formData, price: parseFloat(e.target.value)})} />
+              {/* Variants Toggle */}
+              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div className="flex items-center gap-3 mb-2">
+                  <input 
+                    type="checkbox" 
+                    id="hasVariants"
+                    checked={hasVariants}
+                    onChange={(e) => setHasVariants(e.target.checked)}
+                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+                  />
+                  <label htmlFor="hasVariants" className="font-semibold text-gray-800 flex items-center gap-2 cursor-pointer">
+                    <Layers size={18} />
+                    Este producto tiene variantes
+                  </label>
                 </div>
-                <div>
-                   <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
-                  <input required type="number" className="w-full border border-gray-300 rounded-lg p-2.5 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none" value={formData.stock} onChange={e => setFormData({...formData, stock: parseInt(e.target.value)})} />
-                </div>
+                <p className="text-xs text-gray-500 ml-8">Activa esto para agregar diferentes opciones (tallas, colores, modelos) con sus propios precios.</p>
               </div>
+
+              {/* Conditional Rendering: Standard Price/Stock OR Variants Manager */}
+              {!hasVariants ? (
+                <div className="grid grid-cols-2 gap-4 animate-fade-in">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Precio</label>
+                    <input required type="number" step="0.01" className="w-full border border-gray-300 rounded-lg p-2.5 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none" value={formData.price} onChange={e => setFormData({...formData, price: parseFloat(e.target.value)})} />
+                  </div>
+                  <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+                    <input required type="number" className="w-full border border-gray-300 rounded-lg p-2.5 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none" value={formData.stock} onChange={e => setFormData({...formData, stock: parseInt(e.target.value)})} />
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4 animate-fade-in">
+                   <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                      <h4 className="text-sm font-bold text-blue-800 mb-2">Agregar Variante</h4>
+                      <div className="grid grid-cols-3 gap-2 mb-2">
+                        <input 
+                          type="text" 
+                          placeholder="Nombre (Ej: Rojo, L)" 
+                          className="col-span-1 border rounded p-2 text-sm bg-white text-gray-900"
+                          value={newVariant.name}
+                          onChange={(e) => setNewVariant({...newVariant, name: e.target.value})}
+                        />
+                        <input 
+                          type="number" 
+                          step="0.01"
+                          placeholder="Precio" 
+                          className="col-span-1 border rounded p-2 text-sm bg-white text-gray-900"
+                          value={newVariant.price || ''}
+                          onChange={(e) => setNewVariant({...newVariant, price: parseFloat(e.target.value)})}
+                        />
+                         <input 
+                          type="number" 
+                          placeholder="Stock" 
+                          className="col-span-1 border rounded p-2 text-sm bg-white text-gray-900"
+                          value={newVariant.stock || ''}
+                          onChange={(e) => setNewVariant({...newVariant, stock: parseInt(e.target.value)})}
+                        />
+                      </div>
+                      <button 
+                        type="button" 
+                        onClick={addVariant}
+                        className="w-full bg-blue-600 text-white py-2 rounded text-sm font-medium hover:bg-blue-700 flex items-center justify-center gap-1"
+                      >
+                        <Plus size={16} /> Agregar Variante
+                      </button>
+                   </div>
+
+                   <div className="space-y-2">
+                     <label className="block text-sm font-medium text-gray-700">Variantes Actuales</label>
+                     {(!formData.variants || formData.variants.length === 0) && (
+                        <p className="text-sm text-gray-400 italic text-center py-2">No hay variantes agregadas</p>
+                     )}
+                     {formData.variants?.map((v) => (
+                       <div key={v.id} className="flex justify-between items-center bg-gray-50 p-2 rounded border border-gray-200">
+                          <div>
+                            <span className="font-semibold block">{v.name}</span>
+                            <span className="text-xs text-gray-500">${v.price.toFixed(2)} - Stock: {v.stock}</span>
+                          </div>
+                          <button 
+                            type="button"
+                            onClick={() => removeVariant(v.id)}
+                            className="text-red-500 hover:text-red-700 p-1"
+                          >
+                            <Trash size={16} />
+                          </button>
+                       </div>
+                     ))}
+                   </div>
+                </div>
+              )}
 
               {/* Dynamic Category Selection */}
               <div>
@@ -818,6 +969,40 @@ ${themeColorsString}
                 className="px-6 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-colors shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500"
               >
                 Sí, Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reset Confirmation Modal */}
+      {isResetConfirmOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 text-center transform transition-all scale-100">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
+               <RefreshCcw size={32} />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">¿Estás seguro?</h3>
+            <p className="text-gray-500 mb-6">
+              Esta acción borrará los datos guardados en tu navegador y recargará todo desde el archivo de código (<code>constants.ts</code>). 
+              <br/><br/>
+              Úsalo solo si acabas de actualizar el código y no ves los cambios.
+            </p>
+            <div className="flex gap-4 justify-center">
+              <button 
+                onClick={() => setIsResetConfirmOpen(false)}
+                className="px-6 py-2 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button 
+                onClick={() => {
+                   resetStore();
+                   setIsResetConfirmOpen(false);
+                }}
+                className="px-6 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-colors shadow-lg"
+              >
+                Sí, Restablecer
               </button>
             </div>
           </div>

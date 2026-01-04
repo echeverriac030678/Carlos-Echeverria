@@ -39,14 +39,14 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
       "name": "Repuestos",
       "description": "Desbrozadoras, Motosierras, Motobombas, Fumigadoras y Generadores",
       "type": "image",
-      "value": "\thttps://desbrozadora.my.canva.site/dag9ttfpbvo/_assets/media/e36af30325ec8b51d8da10d278cf0186.png"
+      "value": "https://desbrozadora.my.canva.site/dag9ttfpbvo/_assets/media/e36af30325ec8b51d8da10d278cf0186.png"
     },
     {
       "id": "2",
       "name": "Tornillería",
       "description": "Tornilleria en general",
       "type": "image",
-      "value": "\thttps://desbrozadora.my.canva.site/dag9trdgyue/_assets/media/5d3a35a39252dfe2c87f977dc5e3be30.png"
+      "value": "https://desbrozadora.my.canva.site/dag9trdgyue/_assets/media/5d3a35a39252dfe2c87f977dc5e3be30.png"
     },
     {
       "id": "3",
@@ -56,11 +56,11 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
       "value": "https://desbrozadora.my.canva.site/desbrozadoras/_assets/media/8781b4855ac3c48c7240a1d971b4e9ad.png"
     },
     {
-      "id": "4",
-      "name": "Ferretería",
-      "description": "Insumos generales",
-      "type": "icon",
-      "value": "Sprout"
+      "id": "1767553323203",
+      "name": "Ferreteria",
+      "description": "Insumos y herramientas",
+      "type": "image",
+      "value": "https://uyustools.com/wp-content/uploads/2023/09/%E6%89%8B%E5%B7%A5%E5%85%B7%E5%8D%95%E5%9B%BE%E9%80%8F%E5%BA%95.png"
     }
   ]
 };
@@ -77,39 +77,69 @@ export const INITIAL_PRODUCTS: Product[] = [
   },
   {
     "id": "2",
-    "name": "Cadena Motosierra 18\"",
-    "description": "Cadena de acero endurecido para motosierras de espada de 18 pulgadas. Corte rápido.",
+    "name": "Poleas de Izaje UYUSTOOLS",
+    "description": "¡Levanta cargas pesadas con facilidad y seguridad! 🏗️💪\nPresentamos las Poleas de Izaje UYUSTOOLS (disponibles en 1/2 tonelada y 1 tonelada):\n✅ Capacidades: 0.5 toneladas y 1 tonelada\n✅ Diseño robusto en acero con gancho giratorio resistente\n✅ Roldana de alta calidad para un deslizamiento suave y seguro\n✅ Ideales para talleres, construcción, garajes y elevación industrial\n✅ Marca UYUSTOOLS: Calidad y durabilidad garantizada\n¡Multiplica tu fuerza y trabaja como profesional! 🔧",
     "price": 18.5,
-    "category": "Repuestos",
-    "imageUrl": "https://images.unsplash.com/photo-1589363460773-6058fb2088df?auto=format&fit=crop&q=80&w=500",
-    "stock": 30
+    "category": "Herramientas",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag9e-xvir0/_assets/media/251b4a100d2c50f349de51a8ea38e36c.png",
+    "stock": 30,
+    "variants": [
+      {
+        "id": "1767556599509",
+        "name": "1/2 Tonelada",
+        "price": 8.65,
+        "stock": 6
+      },
+      {
+        "id": "1767556617036",
+        "name": "1 Tonelada",
+        "price": 14.65,
+        "stock": 4
+      }
+    ]
   },
   {
     "id": "3",
-    "name": "Kit Tornillos Hexagonales 500pz",
-    "description": "Surtido de tornillos hexagonales de acero inoxidable, varias medidas. Ideal taller.",
-    "price": 45,
-    "category": "Tornillería",
-    "imageUrl": "https://images.unsplash.com/photo-1588619461394-3e9114f26622?auto=format&fit=crop&q=80&w=500",
-    "stock": 100
+    "name": "Báscula Electrónica Comercial FERRAWYY",
+    "description": "¡Precisión en cada pesaje! ⚖️💼\nDescubre la Báscula Electrónica Comercial FERRAWYY con plataforma de vidrio:\n✅ Capacidad máxima: Hasta 40 kg (ideal para comercios y mercados)\n✅ Pantalla digital doble: Fácil lectura para vendedor y cliente\n✅ Función tara y cálculo de precio: Pesa, multiplica y suma automáticamente\n✅ Plataforma resistente de vidrio templado para mayor durabilidad\n✅ Diseño compacto y profesional con botones intuitivos\n¡Controla tu negocio con exactitud y eficiencia! 📈",
+    "price": 29.95,
+    "category": "Maquinaria",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag9ey-evaa/_assets/media/5d749f271ab8f3d6b93a66256dcb4bcd.png",
+    "stock": 3,
+    "variants": []
   },
   {
     "id": "4",
-    "name": "Motobomba de Agua 2\"",
-    "description": "Motobomba a gasolina 6.5HP, salida de 2 pulgadas. Ideal para riego agrícola.",
-    "price": 220,
-    "category": "Repuestos",
-    "imageUrl": "https://images.unsplash.com/photo-1517430348757-320cb0756770?auto=format&fit=crop&q=80&w=500",
-    "stock": 10
+    "name": "Casco de Soldadura Auto-Oscureciente",
+    "description": "¡Protección total para tus soldaduras! 🔥🛡️\nPresentamos el Casco de Soldadura Auto-Oscureciente UYUSTOOLS Modelo M-9401L:\n✅ Auto-oscurecimiento automático al detectar el arco\n✅ Alimentación solar (ecológico y sin pilas constantes)\n✅ Área de visión amplia: 92.5 x 42.5 mm\n✅ Control de sombra ajustable para adaptarse a diferentes trabajos\n✅ Protección UV/IR completa para tus ojos\n¡Trabaja con comodidad y seguridad máxima! 💪",
+    "price": 19.95,
+    "category": "Herramientas",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag9exci17i/_assets/media/351ea54602fb9937036eb9bd00e2da74.png",
+    "stock": 2,
+    "variants": []
   },
   {
     "id": "5",
-    "name": "Juego de Llaves Combinadas",
-    "description": "Set de 12 llaves combinadas (milimétricas) de acero cromo vanadio.",
+    "name": "Hilo para desbrozadora Ferton 3MM",
+    "description": "¡Que nada te detenga! 🚜💨\n\nPresentamos el hilo para desbrozadora Ferton, diseñado para resistir el desgaste y ofrecer un corte limpio incluso en la maleza más densa. Menos tiempo cambiando el hilo y más tiempo dejando tu jardín perfecto.\n\nMáxima resistencia al impacto.\n\nCorte preciso que cuida tu motor.\n\nIdeal para largas jornadas de trabajo.\n\n🔧 ¡Equípate con lo mejor! Consíguelo hoy mismo.",
     "price": 35,
     "category": "Herramientas",
-    "imageUrl": "https://images.unsplash.com/photo-1614349195325-1e4e6988897b?auto=format&fit=crop&q=80&w=500",
-    "stock": 25
+    "imageUrl": "https://desbrozadora.my.canva.site/dag9e-6f7wc/_assets/media/056a1757ba2ef83d00f08d696becb170.png",
+    "stock": 25,
+    "variants": [
+      {
+        "id": "1767557314670",
+        "name": "500 metros",
+        "price": 36,
+        "stock": 6
+      },
+      {
+        "id": "1767557341601",
+        "name": "200 metros",
+        "price": 18,
+        "stock": 3
+      }
+    ]
   },
   {
     "id": "6",

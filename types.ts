@@ -1,17 +1,26 @@
 export type Category = string; // Changed from union type to string to support dynamic categories
 
+export interface ProductVariant {
+  id: string;
+  name: string; // e.g. "Pequeño", "Grande", "Rojo", "Modelo A"
+  price: number;
+  stock: number;
+}
+
 export interface Product {
   id: string;
   name: string;
   description: string;
-  price: number;
+  price: number; // Base price or price of the first variant
   category: Category;
   imageUrl: string;
-  stock: number;
+  stock: number; // Total stock or stock of the base product
+  variants?: ProductVariant[]; // Optional list of variants
 }
 
 export interface CartItem extends Product {
   quantity: number;
+  selectedVariant?: ProductVariant; // Store specific variant details if selected
 }
 
 export interface HomeCategory {
