@@ -39,14 +39,14 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
       "name": "Repuestos",
       "description": "Desbrozadoras, Motosierras, Motobombas, Fumigadoras y Generadores",
       "type": "image",
-      "value": "https://desbrozadora.my.canva.site/dag9ttfpbvo/_assets/media/e36af30325ec8b51d8da10d278cf0186.png"
+      "value": "\thttps://desbrozadora.my.canva.site/dag9ttfpbvo/_assets/media/e36af30325ec8b51d8da10d278cf0186.png"
     },
     {
       "id": "2",
       "name": "Tornillería",
       "description": "Tornilleria en general",
       "type": "image",
-      "value": "https://desbrozadora.my.canva.site/dag9trdgyue/_assets/media/5d3a35a39252dfe2c87f977dc5e3be30.png"
+      "value": "\thttps://desbrozadora.my.canva.site/dag9trdgyue/_assets/media/5d3a35a39252dfe2c87f977dc5e3be30.png"
     },
     {
       "id": "3",

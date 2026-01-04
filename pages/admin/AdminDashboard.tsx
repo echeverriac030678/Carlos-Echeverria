@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Package, Settings as SettingsIcon, Plus, Edit, Trash, LogOut, AlertTriangle, Image as ImageIcon, ExternalLink, AlertCircle, Check, Link as LinkIcon, Home as HomeIcon, FileJson, Copy, X } from 'lucide-react';
+import { Package, Settings as SettingsIcon, Plus, Edit, Trash, LogOut, AlertTriangle, Image as ImageIcon, ExternalLink, AlertCircle, Check, FileJson, Download, X, Home as HomeIcon } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { Product, Category, SiteConfig, HomeCategory, QuickLink } from '../../types';
 import { THEME_COLORS } from '../../constants';
@@ -36,10 +36,6 @@ const AdminDashboard: React.FC = () => {
   // Settings Form State
   const [configForm, setConfigForm] = useState<SiteConfig>(siteConfig);
   
-  // Export Modal State
-  const [showExportModal, setShowExportModal] = useState(false);
-  const [copied, setCopied] = useState(false);
-
   const handleOpenModal = (product?: Product) => {
     setIsAddingCategory(false);
     setNewCategoryName('');
@@ -101,18 +97,43 @@ const AdminDashboard: React.FC = () => {
     navigate('/admin');
   };
 
-  const generateConfigCode = () => {
+  // --- LOGIC TO GENERATE AND DOWNLOAD CODE ---
+
+  const generateFullFileContent = () => {
+    // We recreate the THEME_COLORS object string manually to ensure it's included in the file
+    const themeColorsString = `export const THEME_COLORS = {
+  green: { bg: 'bg-emerald-600', text: 'text-emerald-600', border: 'border-emerald-600', hover: 'hover:bg-emerald-700', ring: 'focus:ring-emerald-500', btnHover: 'hover:bg-emerald-700' },
+  blue: { bg: 'bg-blue-600', text: 'text-blue-600', border: 'border-blue-600', hover: 'hover:bg-blue-700', ring: 'focus:ring-blue-500', btnHover: 'hover:bg-blue-700' },
+  orange: { bg: 'bg-orange-600', text: 'text-orange-600', border: 'border-orange-600', hover: 'hover:bg-orange-700', ring: 'focus:ring-orange-500', btnHover: 'hover:bg-orange-700' },
+  red: { bg: 'bg-red-600', text: 'text-red-600', border: 'border-red-600', hover: 'hover:bg-red-700', ring: 'focus:ring-red-500', btnHover: 'hover:bg-red-700' },
+};`;
+
     return `import { Product, SiteConfig } from './types';
 
 export const INITIAL_SITE_CONFIG: SiteConfig = ${JSON.stringify(configForm, null, 2)};
 
-// ... (El resto del archivo constants.ts debe mantenerse igual, solo reemplaza INITIAL_SITE_CONFIG)`;
+export const INITIAL_PRODUCTS: Product[] = ${JSON.stringify(products, null, 2)};
+
+export const CATEGORIES: string[] = ${JSON.stringify(categories, null, 2)};
+
+${themeColorsString}
+`;
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(generateConfigCode());
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleDownloadCode = () => {
+    const content = generateFullFileContent();
+    const blob = new Blob([content], { type: 'text/typescript' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'constants.ts'; // The file name to download
+    document.body.appendChild(a);
+    a.click();
+    
+    // Cleanup
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   // Helper to detect if user pasted a website link instead of an image
@@ -207,14 +228,24 @@ export const INITIAL_SITE_CONFIG: SiteConfig = ${JSON.stringify(configForm, null
         {/* Content */}
         {activeTab === 'inventory' ? (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="p-6 border-b border-gray-200 flex justify-between items-center">
+            <div className="p-6 border-b border-gray-200 flex justify-between items-center flex-wrap gap-4">
               <h2 className="text-xl font-bold text-gray-800">Gestión de Productos</h2>
-              <button
-                onClick={() => handleOpenModal()}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white ${theme.bg} ${theme.hover} transition-colors`}
-              >
-                <Plus size={18} /> Nuevo Producto
-              </button>
+              
+              <div className="flex gap-2">
+                <button
+                  onClick={handleDownloadCode}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors"
+                  title="Descargar archivo para guardar cambios permanentemente"
+                >
+                  <Download size={18} /> Guardar Cambios en Proyecto
+                </button>
+                <button
+                  onClick={() => handleOpenModal()}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white ${theme.bg} ${theme.hover} transition-colors`}
+                >
+                  <Plus size={18} /> Nuevo Producto
+                </button>
+              </div>
             </div>
             
             <div className="overflow-x-auto">
@@ -604,11 +635,11 @@ export const INITIAL_SITE_CONFIG: SiteConfig = ${JSON.stringify(configForm, null
                 
                 <button
                   type="button"
-                  onClick={() => setShowExportModal(true)}
+                  onClick={handleDownloadCode}
                   className="flex-shrink-0 bg-gray-800 text-white px-6 py-4 rounded-lg font-bold flex items-center gap-2 hover:bg-gray-700 transition-colors"
-                  title="Obtener código para guardar permanentemente en el proyecto"
+                  title="Descargar constants.ts con todos los productos y configuraciones"
                 >
-                  <FileJson size={20} /> Exportar a Código
+                  <Download size={20} /> Guardar Cambios en Proyecto
                 </button>
               </div>
 
@@ -616,51 +647,6 @@ export const INITIAL_SITE_CONFIG: SiteConfig = ${JSON.stringify(configForm, null
           </div>
         )}
       </div>
-
-      {/* Export Modal */}
-      {showExportModal && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <FileJson className="text-blue-600" /> Exportar Configuración
-                </h3>
-                <p className="text-sm text-gray-500 mt-1">
-                  Copia este código y reemplaza la constante <code>INITIAL_SITE_CONFIG</code> en tu archivo <code>constants.ts</code>.
-                </p>
-              </div>
-              <button onClick={() => setShowExportModal(false)} className="text-gray-400 hover:text-gray-600">
-                <X size={24} />
-              </button>
-            </div>
-            
-            <div className="p-0 overflow-hidden flex-grow relative bg-gray-900">
-              <textarea 
-                readOnly
-                className="w-full h-96 p-6 bg-gray-900 text-green-400 font-mono text-sm focus:outline-none resize-none"
-                value={generateConfigCode()}
-              />
-              <button
-                onClick={copyToClipboard}
-                className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors border border-white/20 backdrop-blur-md"
-              >
-                {copied ? <Check size={18} className="text-green-400" /> : <Copy size={18} />}
-                {copied ? '¡Copiado!' : 'Copiar Código'}
-              </button>
-            </div>
-            
-            <div className="p-6 border-t border-gray-100 bg-gray-50 rounded-b-xl flex justify-end">
-              <button 
-                onClick={() => setShowExportModal(false)}
-                className="px-6 py-2 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 transition-colors"
-              >
-                Cerrar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Product Modal */}
       {isModalOpen && (
