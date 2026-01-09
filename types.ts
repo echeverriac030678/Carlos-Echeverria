@@ -48,6 +48,7 @@ export interface SiteConfig {
   contactPhone: string;
   contactEmail: string;
   address: string; // New: Physical address
+  taxRate: number; // New: Tax percentage (e.g., 7 for 7%)
   
   // New: About Us Content
   companyDescription?: string;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Package, Settings as SettingsIcon, Plus, Edit, Trash, LogOut, AlertTriangle, Image as ImageIcon, ExternalLink, AlertCircle, Check, FileJson, Download, X, Home as HomeIcon, Layers, RefreshCcw } from 'lucide-react';
+import { Package, Settings as SettingsIcon, Plus, Edit, Trash, LogOut, AlertTriangle, Image as ImageIcon, ExternalLink, AlertCircle, Check, FileJson, Download, X, Home as HomeIcon, Layers, RefreshCcw, DollarSign } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { Product, Category, SiteConfig, HomeCategory, QuickLink, ProductVariant } from '../../types';
 import { THEME_COLORS } from '../../constants';
@@ -464,6 +464,30 @@ ${themeColorsString}
                     />
                   </div>
                 </div>
+              </div>
+              
+              {/* SECTION: FINANCIAL (ITBMS) */}
+              <div className="space-y-6">
+                 <h3 className="text-lg font-bold text-gray-800 border-b pb-2 flex items-center gap-2">
+                    <DollarSign size={20} /> Pagos e Impuestos
+                 </h3>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                       <label className="block text-sm font-medium text-gray-700 mb-1">Porcentaje de Impuesto (ITBMS)</label>
+                       <div className="relative">
+                          <input 
+                             type="number" 
+                             min="0"
+                             step="0.01"
+                             className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900 pr-8"
+                             value={configForm.taxRate || 7}
+                             onChange={(e) => setConfigForm({...configForm, taxRate: parseFloat(e.target.value)})}
+                          />
+                          <span className="absolute right-3 top-2 text-gray-500">%</span>
+                       </div>
+                       <p className="text-xs text-gray-500 mt-1">Este porcentaje se sumará al subtotal en el carrito.</p>
+                    </div>
+                 </div>
               </div>
 
                {/* SECTION: COMPANY TEXTS (NEW) */}

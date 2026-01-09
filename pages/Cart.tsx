@@ -4,15 +4,20 @@ import { Trash2, Plus, Minus, ArrowRight, ShoppingBag } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 
 const Cart: React.FC = () => {
-  const { cart, updateCartQuantity, removeFromCart, getThemeClasses } = useStore();
+  const { cart, updateCartQuantity, removeFromCart, getThemeClasses, siteConfig } = useStore();
   const theme = getThemeClasses();
   const navigate = useNavigate();
 
   // Price calculation handles both base products and variants
-  const total = cart.reduce((sum, item) => {
+  const subtotal = cart.reduce((sum, item) => {
     const price = item.selectedVariant ? item.selectedVariant.price : item.price;
     return sum + (price * item.quantity);
   }, 0);
+
+  // Calculate tax (ITBMS)
+  const taxRate = siteConfig.taxRate || 7; // Default to 7% if not set
+  const taxAmount = subtotal * (taxRate / 100);
+  const total = subtotal + taxAmount;
 
   if (cart.length === 0) {
     return (
@@ -115,11 +120,11 @@ const Cart: React.FC = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Impuestos (Est.)</span>
-                  <span>Calculado al pagar</span>
+                  <span>ITBMS ({taxRate}%)</span>
+                  <span>${taxAmount.toFixed(2)}</span>
                 </div>
                 <div className="border-t border-gray-100 pt-4 flex justify-between text-xl font-bold text-gray-900">
                   <span>Total</span>

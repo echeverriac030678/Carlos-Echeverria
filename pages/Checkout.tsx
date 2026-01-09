@@ -4,10 +4,18 @@ import { useStore } from '../context/StoreContext';
 import { CreditCard, CheckCircle, Send, Loader2 } from 'lucide-react';
 
 const Checkout: React.FC = () => {
-  const { cart, clearCart, getThemeClasses } = useStore();
+  const { cart, clearCart, getThemeClasses, siteConfig } = useStore();
   const theme = getThemeClasses();
   const navigate = useNavigate();
-  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  
+  // Calculate Totals including tax
+  const subtotal = cart.reduce((sum, item) => {
+    const price = item.selectedVariant ? item.selectedVariant.price : item.price;
+    return sum + (price * item.quantity);
+  }, 0);
+  const taxRate = siteConfig.taxRate || 7;
+  const taxAmount = subtotal * (taxRate / 100);
+  const total = subtotal + taxAmount;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -31,7 +39,10 @@ const Checkout: React.FC = () => {
     setIsProcessing(true);
 
     // Preparar el resumen de productos
-    const productsSummary = cart.map(item => `${item.quantity}x ${item.name}`).join(', ');
+    const productsSummary = cart.map(item => {
+        const variantInfo = item.selectedVariant ? ` (${item.selectedVariant.name})` : '';
+        return `${item.quantity}x ${item.name}${variantInfo}`;
+    }).join(', ');
     
     // Construcción del Payload con las claves exactas solicitadas
     const payload = {
@@ -43,7 +54,7 @@ const Checkout: React.FC = () => {
       DIRECCION: formData.address,
       PROVINCIA: formData.province,
       PRODUCTO: productsSummary,
-      MONTO: total.toFixed(2)
+      MONTO: total.toFixed(2) // Total now includes ITBMS
     };
 
     try {
@@ -193,9 +204,19 @@ const Checkout: React.FC = () => {
                 />
               </div>
 
-              <div className="bg-gray-50 p-4 rounded-lg flex justify-between items-center mt-6">
-                <span className="font-semibold text-gray-700">Total a Pagar:</span>
-                <span className="text-2xl font-bold text-gray-900">${total.toFixed(2)}</span>
+              <div className="bg-gray-50 p-4 rounded-lg mt-6 space-y-2">
+                <div className="flex justify-between items-center text-gray-600 text-sm">
+                  <span>Subtotal:</span>
+                  <span>${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between items-center text-gray-600 text-sm">
+                  <span>ITBMS ({taxRate}%):</span>
+                  <span>${taxAmount.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between items-center border-t border-gray-200 pt-2 mt-2">
+                   <span className="font-semibold text-gray-700">Total a Pagar:</span>
+                   <span className="text-2xl font-bold text-gray-900">${total.toFixed(2)}</span>
+                </div>
               </div>
 
               <div className="pt-4 space-y-3">

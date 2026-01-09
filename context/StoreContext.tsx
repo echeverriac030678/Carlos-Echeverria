@@ -23,30 +23,58 @@ interface StoreContextType {
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
 export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // State initialization with localStorage persistence
+  // Inicialización inteligente: Combina LocalStorage con los nuevos productos del código
   const [products, setProducts] = useState<Product[]>(() => {
-    const saved = localStorage.getItem('ido_products');
-    return saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
+    try {
+      const saved = localStorage.getItem('ido_products');
+      const savedProducts = saved ? JSON.parse(saved) : [];
+
+      if (!Array.isArray(savedProducts) || savedProducts.length === 0) {
+        return INITIAL_PRODUCTS;
+      }
+
+      // Fusionar: Mantener los existentes (por si se editaron precios) y agregar los NUEVOS del código
+      const savedIds = new Set(savedProducts.map((p: any) => p.id));
+      const newFromCode = INITIAL_PRODUCTS.filter(p => !savedIds.has(p.id));
+      
+      return [...savedProducts, ...newFromCode];
+    } catch (error) {
+      return INITIAL_PRODUCTS;
+    }
   });
 
   const [categories, setCategories] = useState<string[]>(() => {
-    const saved = localStorage.getItem('ido_categories');
-    return saved ? JSON.parse(saved) : INITIAL_CATEGORIES;
+    try {
+      const saved = localStorage.getItem('ido_categories');
+      const savedCategories = saved ? JSON.parse(saved) : [];
+
+      if (!Array.isArray(savedCategories) || savedCategories.length === 0) {
+        return INITIAL_CATEGORIES;
+      }
+
+      const newCategories = INITIAL_CATEGORIES.filter(c => !savedCategories.includes(c));
+      return [...savedCategories, ...newCategories];
+    } catch {
+      return INITIAL_CATEGORIES;
+    }
   });
 
   const [cart, setCart] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem('ido_cart');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('ido_cart');
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
   });
 
   const [siteConfig, setSiteConfig] = useState<SiteConfig>(() => {
-    const saved = localStorage.getItem('ido_config');
-    // Ensure new properties exist if loading from old local storage
-    const parsed = saved ? JSON.parse(saved) : INITIAL_SITE_CONFIG;
-    return { ...INITIAL_SITE_CONFIG, ...parsed };
+    try {
+      const saved = localStorage.getItem('ido_config');
+      const parsed = saved ? JSON.parse(saved) : INITIAL_SITE_CONFIG;
+      return { ...INITIAL_SITE_CONFIG, ...parsed };
+    } catch { return INITIAL_SITE_CONFIG; }
   });
 
-  // Persistence Effects
+  // Persistencia automática
   useEffect(() => {
     localStorage.setItem('ido_products', JSON.stringify(products));
   }, [products]);
@@ -63,10 +91,9 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     localStorage.setItem('ido_config', JSON.stringify(siteConfig));
   }, [siteConfig]);
 
-  // Cart Logic
+  // Lógica de Carrito
   const addToCart = (product: Product, quantity: number, variant?: ProductVariant) => {
     setCart(prev => {
-      // Create a unique key for comparison (Product ID + Variant ID if exists)
       const existing = prev.find(item => 
         item.id === product.id && 
         (variant ? item.selectedVariant?.id === variant.id : !item.selectedVariant)
@@ -85,7 +112,6 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const removeFromCart = (productId: string, variantId?: string) => {
     setCart(prev => prev.filter(item => {
-      // Keep items that DO NOT match the ID and Variant criteria
       const idMatch = item.id === productId;
       const variantMatch = variantId ? item.selectedVariant?.id === variantId : !item.selectedVariant;
       return !(idMatch && variantMatch);
@@ -106,42 +132,24 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const clearCart = () => setCart([]);
 
-  // Inventory Logic
-  const addProduct = (product: Product) => {
-    setProducts(prev => [...prev, product]);
-  };
-
-  const updateProduct = (updatedProduct: Product) => {
-    setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
-  };
-
-  const deleteProduct = (productId: string) => {
-    setProducts(prev => prev.filter(p => p.id !== productId));
-  };
-
+  // Lógica de Inventario
+  const addProduct = (product: Product) => setProducts(prev => [...prev, product]);
+  const updateProduct = (updatedProduct: Product) => setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+  const deleteProduct = (productId: string) => setProducts(prev => prev.filter(p => p.id !== productId));
   const addCategory = (category: string) => {
-    if (!categories.includes(category)) {
-      setCategories(prev => [...prev, category]);
-    }
+    if (!categories.includes(category)) setCategories(prev => [...prev, category]);
   };
 
-  // Config Logic
-  const updateSiteConfig = (config: SiteConfig) => {
-    setSiteConfig(config);
-  };
+  const updateSiteConfig = (config: SiteConfig) => setSiteConfig(config);
 
-  // Reset Logic
   const resetStore = () => {
     localStorage.removeItem('ido_products');
     localStorage.removeItem('ido_categories');
     localStorage.removeItem('ido_config');
-    // We reload to ensure clean state initialization from constants
     window.location.reload();
   };
 
-  // Theme Helper
   const getThemeClasses = () => {
-    // This connects to the THEME_COLORS constant, but imported dynamically to avoid circular dependencies if moved
     const color = siteConfig.primaryColor;
     const themes: any = {
       green: { bg: 'bg-emerald-600', text: 'text-emerald-600', border: 'border-emerald-600', hover: 'hover:bg-emerald-700', ring: 'focus:ring-emerald-500', btnHover: 'hover:bg-emerald-700' },
