@@ -69,11 +69,11 @@ const Home: React.FC = () => {
                   onClick={() => navigate(`/catalog?category=${cat.name}`)}
                   className="group p-6 bg-gray-50 rounded-2xl cursor-pointer hover:bg-white hover:shadow-xl border border-transparent hover:border-gray-100 transition-all duration-300 text-center"
                 >
-                  <div className={`w-20 h-20 mx-auto mb-4 rounded-full ${theme.bg} bg-opacity-10 flex items-center justify-center ${theme.text} group-hover:bg-opacity-20 transition-colors overflow-hidden`}>
+                  <div className={`w-40 h-40 mx-auto mb-6 rounded-full ${theme.bg} bg-opacity-10 flex items-center justify-center ${theme.text} group-hover:bg-opacity-20 transition-colors overflow-hidden`}>
                     {cat.type === 'image' ? (
                       <img src={cat.value} alt={cat.name} className="w-full h-full object-cover" />
                     ) : (
-                      <IconComponent size={32} />
+                      <IconComponent size={64} />
                     )}
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{cat.name}</h3>

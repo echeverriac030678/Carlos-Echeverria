@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
     { name: 'Inicio', path: '/' },
     { name: 'Nosotros', path: '/about' },
     { name: 'Catálogo', path: '/catalog' },
-    { name: 'Contacto', path: '#contact' },
+    { name: 'Redes Sociales', path: '/social' },
   ];
 
   const isActive = (path: string) => location.pathname === path;

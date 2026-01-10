@@ -13,6 +13,7 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import About from './pages/About';
+import Social from './pages/Social'; // Importar nueva página
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 
@@ -65,6 +66,7 @@ const App: React.FC = () => {
           <Route path="/product/:id" element={<MainLayout><ProductDetail /></MainLayout>} />
           <Route path="/cart" element={<MainLayout><Cart /></MainLayout>} />
           <Route path="/checkout" element={<MainLayout><Checkout /></MainLayout>} />
+          <Route path="/social" element={<MainLayout><Social /></MainLayout>} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLogin />} />
