@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Package, Settings as SettingsIcon, Plus, Edit, Trash, LogOut, AlertTriangle, Image as ImageIcon, ExternalLink, AlertCircle, Check, FileJson, Download, X, Home as HomeIcon, Layers, RefreshCcw, DollarSign, MapPin } from 'lucide-react';
+import { Package, Settings as SettingsIcon, Plus, Edit, Trash, LogOut, AlertTriangle, Image as ImageIcon, ExternalLink, AlertCircle, Check, FileJson, Download, X, Home as HomeIcon, Layers, RefreshCcw, DollarSign } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { Product, Category, SiteConfig, HomeCategory, QuickLink, ProductVariant } from '../../types';
 import { THEME_COLORS } from '../../constants';
@@ -465,86 +465,6 @@ ${themeColorsString}
                   </div>
                 </div>
               </div>
-
-               {/* SECTION: CONTACT & SOCIAL (UPDATED) */}
-               <div className="space-y-6">
-                <h3 className="text-lg font-bold text-gray-800 border-b pb-2 flex items-center gap-2">
-                  <MapPin size={20} /> Contacto y Redes Sociales
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono Fijo</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
-                      value={configForm.contactPhone}
-                      onChange={(e) => setConfigForm({...configForm, contactPhone: e.target.value})}
-                    />
-                  </div>
-                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp Business (Sólo números)</label>
-                    <input
-                      type="text"
-                      placeholder="Ej: 50767539193"
-                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
-                      value={configForm.whatsappNumber || ''}
-                      onChange={(e) => setConfigForm({...configForm, whatsappNumber: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
-                      value={configForm.contactEmail}
-                      onChange={(e) => setConfigForm({...configForm, contactEmail: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Instagram URL</label>
-                    <input
-                      type="text"
-                      placeholder="https://instagram.com/..."
-                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
-                      value={configForm.instagramUrl || ''}
-                      onChange={(e) => setConfigForm({...configForm, instagramUrl: e.target.value})}
-                    />
-                  </div>
-                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Dirección del Local</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
-                      value={configForm.address || ''}
-                      onChange={(e) => setConfigForm({...configForm, address: e.target.value})}
-                      placeholder="Ej: Zona Industrial II..."
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Indicaciones de Cómo Llegar</label>
-                    <textarea
-                      rows={2}
-                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
-                      value={configForm.locationInstructions || ''}
-                      onChange={(e) => setConfigForm({...configForm, locationInstructions: e.target.value})}
-                      placeholder="Ej: Busca el galpón verde frente a..."
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Google Maps Embed URL (src)</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900 text-xs font-mono"
-                      value={configForm.mapEmbedUrl || ''}
-                      onChange={(e) => setConfigForm({...configForm, mapEmbedUrl: e.target.value})}
-                      placeholder="https://www.google.com/maps/embed?..."
-                    />
-                    <p className="text-xs text-gray-500 mt-1">
-                      Ve a Google Maps -> Compartir -> Insertar un mapa -> Copia solo lo que está dentro de <code>src="..."</code>.
-                    </p>
-                  </div>
-                </div>
-              </div>
               
               {/* SECTION: FINANCIAL (ITBMS) */}
               <div className="space-y-6">
@@ -605,6 +525,41 @@ ${themeColorsString}
                   />
                 </div>
                </div>
+
+               {/* SECTION: CONTACT INFO */}
+               <div className="space-y-6">
+                <h3 className="text-lg font-bold text-gray-800 border-b pb-2">Información de Contacto</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                    <input
+                      type="text"
+                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
+                      value={configForm.contactPhone}
+                      onChange={(e) => setConfigForm({...configForm, contactPhone: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input
+                      type="text"
+                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
+                      value={configForm.contactEmail}
+                      onChange={(e) => setConfigForm({...configForm, contactEmail: e.target.value})}
+                    />
+                  </div>
+                   <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Dirección del Local</label>
+                    <input
+                      type="text"
+                      className="w-full rounded-lg border-gray-300 border px-3 py-2 bg-white text-gray-900"
+                      value={configForm.address || ''}
+                      onChange={(e) => setConfigForm({...configForm, address: e.target.value})}
+                      placeholder="Ej: Zona Industrial II..."
+                    />
+                  </div>
+                </div>
+              </div>
 
                {/* SECTION: HOME CATEGORIES */}
                <div className="space-y-6">

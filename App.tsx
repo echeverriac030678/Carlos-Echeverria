@@ -13,7 +13,6 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import About from './pages/About';
-import Contact from './pages/Contact';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 
@@ -62,7 +61,6 @@ const App: React.FC = () => {
           {/* Public Routes */}
           <Route path="/" element={<MainLayout><Home /></MainLayout>} />
           <Route path="/about" element={<MainLayout><About /></MainLayout>} />
-          <Route path="/contact" element={<MainLayout><Contact /></MainLayout>} />
           <Route path="/catalog" element={<MainLayout><Catalog /></MainLayout>} />
           <Route path="/product/:id" element={<MainLayout><ProductDetail /></MainLayout>} />
           <Route path="/cart" element={<MainLayout><Cart /></MainLayout>} />

@@ -9,8 +9,8 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const theme = getThemeClasses();
 
-  // Mostrar los últimos 8 productos agregados (Novedades)
-  const featuredProducts = [...products].reverse().slice(0, 8);
+  // Mostrar los últimos 12 productos agregados (Novedades)
+  const featuredProducts = [...products].reverse().slice(0, 12);
 
   const IconMap: Record<string, React.FC<any>> = {
     Settings, Wrench, Hammer, Sprout, Tractor, Truck, Package, ShoppingBag, Zap
@@ -90,8 +90,8 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-8">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900">Últimos Ingresos</h2>
-              <p className="mt-2 text-gray-500">Descubre lo más nuevo en nuestro inventario.</p>
+              <h2 className="text-3xl font-bold text-gray-900">Novedades en Inventario</h2>
+              <p className="mt-2 text-gray-500">Descubre los últimos artículos agregados.</p>
             </div>
             <Link to="/catalog" className={`${theme.text} font-semibold hover:underline flex items-center gap-1`}>
               Ver todo <ArrowRight size={16} />

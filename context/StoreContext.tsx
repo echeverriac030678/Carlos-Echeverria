@@ -23,20 +23,19 @@ interface StoreContextType {
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
 export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // Inicialización inteligente: Combina LocalStorage con los nuevos productos del código
+  // Inicialización base desde LocalStorage o Constantes
   const [products, setProducts] = useState<Product[]>(() => {
     try {
       const saved = localStorage.getItem('ido_products');
       const savedProducts = saved ? JSON.parse(saved) : [];
-
+      
       if (!Array.isArray(savedProducts) || savedProducts.length === 0) {
         return INITIAL_PRODUCTS;
       }
-
-      // Fusionar: Mantener los existentes (por si se editaron precios) y agregar los NUEVOS del código
+      
+      // En la carga inicial, fusionamos para no perder nada
       const savedIds = new Set(savedProducts.map((p: any) => p.id));
       const newFromCode = INITIAL_PRODUCTS.filter(p => !savedIds.has(p.id));
-      
       return [...savedProducts, ...newFromCode];
     } catch (error) {
       return INITIAL_PRODUCTS;
@@ -47,16 +46,10 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     try {
       const saved = localStorage.getItem('ido_categories');
       const savedCategories = saved ? JSON.parse(saved) : [];
-
-      if (!Array.isArray(savedCategories) || savedCategories.length === 0) {
-        return INITIAL_CATEGORIES;
-      }
-
-      const newCategories = INITIAL_CATEGORIES.filter(c => !savedCategories.includes(c));
-      return [...savedCategories, ...newCategories];
-    } catch {
-      return INITIAL_CATEGORIES;
-    }
+      if (!Array.isArray(savedCategories) || savedCategories.length === 0) return INITIAL_CATEGORIES;
+      const newCats = INITIAL_CATEGORIES.filter(c => !savedCategories.includes(c));
+      return [...savedCategories, ...newCats];
+    } catch { return INITIAL_CATEGORIES; }
   });
 
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -74,7 +67,23 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     } catch { return INITIAL_SITE_CONFIG; }
   });
 
-  // Persistencia automática
+  // SINCRONIZACIÓN ACTIVA: 
+  // Si agregas un producto nuevo al código, este efecto lo detectará y lo añadirá al estado.
+  useEffect(() => {
+    const currentIds = new Set(products.map(p => p.id));
+    const missingInState = INITIAL_PRODUCTS.filter(p => !currentIds.has(p.id));
+    
+    if (missingInState.length > 0) {
+      setProducts(prev => [...prev, ...missingInState]);
+    }
+
+    const missingCats = INITIAL_CATEGORIES.filter(c => !categories.includes(c));
+    if (missingCats.length > 0) {
+      setCategories(prev => [...prev, ...missingCats]);
+    }
+  }, []);
+
+  // Persistencia
   useEffect(() => {
     localStorage.setItem('ido_products', JSON.stringify(products));
   }, [products]);
@@ -91,14 +100,13 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     localStorage.setItem('ido_config', JSON.stringify(siteConfig));
   }, [siteConfig]);
 
-  // Lógica de Carrito
+  // Handlers
   const addToCart = (product: Product, quantity: number, variant?: ProductVariant) => {
     setCart(prev => {
       const existing = prev.find(item => 
         item.id === product.id && 
         (variant ? item.selectedVariant?.id === variant.id : !item.selectedVariant)
       );
-
       if (existing) {
         return prev.map(item => {
            const isMatch = item.id === product.id && 
@@ -131,21 +139,15 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   };
 
   const clearCart = () => setCart([]);
-
-  // Lógica de Inventario
   const addProduct = (product: Product) => setProducts(prev => [...prev, product]);
   const updateProduct = (updatedProduct: Product) => setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
   const deleteProduct = (productId: string) => setProducts(prev => prev.filter(p => p.id !== productId));
   const addCategory = (category: string) => {
     if (!categories.includes(category)) setCategories(prev => [...prev, category]);
   };
-
   const updateSiteConfig = (config: SiteConfig) => setSiteConfig(config);
-
   const resetStore = () => {
-    localStorage.removeItem('ido_products');
-    localStorage.removeItem('ido_categories');
-    localStorage.removeItem('ido_config');
+    localStorage.clear();
     window.location.reload();
   };
 

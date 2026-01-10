@@ -50,12 +50,6 @@ export interface SiteConfig {
   address: string; // New: Physical address
   taxRate: number; // New: Tax percentage (e.g., 7 for 7%)
   
-  // Social & Location (New)
-  instagramUrl?: string;
-  whatsappNumber?: string;
-  mapEmbedUrl?: string; // URL for the iframe src
-  locationInstructions?: string;
-
   // New: About Us Content
   companyDescription?: string;
   companyMission?: string;
