@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product, CartItem, SiteConfig, ProductVariant } from '../types';
-import { INITIAL_PRODUCTS, INITIAL_SITE_CONFIG, CATEGORIES as INITIAL_CATEGORIES } from '../constants';
+import { INITIAL_PRODUCTS, INITIAL_SITE_CONFIG, CATEGORIES as INITIAL_CATEGORIES, DATA_VERSION } from '../constants';
 
 interface StoreContextType {
   products: Product[];
@@ -23,9 +23,15 @@ interface StoreContextType {
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
 export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  // Check if we have a new data version from the code
+  // This allows developer updates to constants.ts to override local storage cache
+  const isNewVersion = localStorage.getItem('ido_data_version') !== DATA_VERSION;
+
   // Inicialización base desde LocalStorage o Constantes
   const [products, setProducts] = useState<Product[]>(() => {
     try {
+      if (isNewVersion) return INITIAL_PRODUCTS;
+
       const saved = localStorage.getItem('ido_products');
       const savedProducts = saved ? JSON.parse(saved) : [];
       
@@ -33,7 +39,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         return INITIAL_PRODUCTS;
       }
       
-      // En la carga inicial, fusionamos para no perder nada
+      // Merge logic: Keep existing but add new IDs from code if they are missing
       const savedIds = new Set(savedProducts.map((p: any) => p.id));
       const newFromCode = INITIAL_PRODUCTS.filter(p => !savedIds.has(p.id));
       return [...savedProducts, ...newFromCode];
@@ -44,6 +50,8 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const [categories, setCategories] = useState<string[]>(() => {
     try {
+      if (isNewVersion) return INITIAL_CATEGORIES;
+
       const saved = localStorage.getItem('ido_categories');
       const savedCategories = saved ? JSON.parse(saved) : [];
       if (!Array.isArray(savedCategories) || savedCategories.length === 0) return INITIAL_CATEGORIES;
@@ -54,6 +62,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
+      // Cart should generally persist even on updates, unless structure breaks, but let's keep it safe
       const saved = localStorage.getItem('ido_cart');
       return saved ? JSON.parse(saved) : [];
     } catch { return []; }
@@ -61,14 +70,26 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const [siteConfig, setSiteConfig] = useState<SiteConfig>(() => {
     try {
+      if (isNewVersion) return INITIAL_SITE_CONFIG;
+
       const saved = localStorage.getItem('ido_config');
       const parsed = saved ? JSON.parse(saved) : INITIAL_SITE_CONFIG;
       return { ...INITIAL_SITE_CONFIG, ...parsed };
     } catch { return INITIAL_SITE_CONFIG; }
   });
 
-  // SINCRONIZACIÓN ACTIVA: 
-  // Si agregas un producto nuevo al código, este efecto lo detectará y lo añadirá al estado.
+  // Update the stored version when a new one is detected and loaded
+  useEffect(() => {
+    if (isNewVersion) {
+      localStorage.setItem('ido_data_version', DATA_VERSION);
+      // We also update the stored items immediately to reflect the reset
+      localStorage.setItem('ido_products', JSON.stringify(INITIAL_PRODUCTS));
+      localStorage.setItem('ido_categories', JSON.stringify(INITIAL_CATEGORIES));
+      localStorage.setItem('ido_config', JSON.stringify(INITIAL_SITE_CONFIG));
+    }
+  }, [isNewVersion]);
+
+  // SINCRONIZACIÓN ACTIVA (Legacy check, kept for safety)
   useEffect(() => {
     const currentIds = new Set(products.map(p => p.id));
     const missingInState = INITIAL_PRODUCTS.filter(p => !currentIds.has(p.id));

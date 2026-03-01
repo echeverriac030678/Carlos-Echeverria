@@ -1,5 +1,8 @@
 import { Product, SiteConfig } from './types';
 
+// Variable de control de versión. AL cambiar esto a v1.4 forzamos la actualización inmediata.
+export const DATA_VERSION = "2024-05-22-v1.4";
+
 export const INITIAL_SITE_CONFIG: SiteConfig = {
   "heroTitle": "Potencia tu Campo e Industria",
   "heroSubtitle": "Repuestos agrícolas, tornillería y ferretería de alta calidad.",
@@ -116,7 +119,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 19.95,
     "category": "Herramientas",
     "imageUrl": "https://desbrozadora.my.canva.site/dag9exci17i/_assets/media/351ea54602fb9937036eb9bd00e2da74.png",
-    "stock": 2,
+    "stock": 1,
     "variants": []
   },
   {
@@ -183,8 +186,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Te presentamos la Tapa de Arranque Super Maxter, diseñada específicamente para el modelo SR420. Robustez y suavidad en cada tirón para que tu motor encienda a la primera. ⚡\n\n✅ Compatibilidad: Modelo SR420 (Referencia ST420-010-27). ✅ Durabilidad: Materiales de alta resistencia para uso rudo. ✅ Instalación: Fácil y rápida, ¡vuelve a la acción en minutos!\n\n¡Mantén tus herramientas al 100%! 🚜💨",
     "price": 7.72,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag9fubfk-0/_assets/media/a921ead92cd62d89358fc57328eeb862.png",
-    "stock": 10,
+    "imageUrl": "https://desbrozadora.my.canva.site/dag9fubfk-0/_assets/media/a921ead92cd62d89358fc57328eeb862.png",
+    "stock": 9,
     "variants": []
   },
   {
@@ -243,7 +246,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Sabemos que la durabilidad de tus herramientas depende de la calidad de sus componentes. Por eso, nuestro kit está fabricado con los más altos estándares para asegurar un ajuste perfecto y un rendimiento constante, incluso en las jornadas más pesadas. 🚜💪\n\n✅ ¿Qué incluye este kit?\n\nPistón de alta resistencia: Diseñado para soportar altas temperaturas.\n\nAnillos de sellado: Para una compresión óptima.\n\nPasador y empaque: Todo listo para una instalación profesional.\n\nReferencia: ST382-002-23.\n\n¡No comprometas el corazón de tu máquina! Elige repuestos que garantizan resultados.\n\n📩 Escríbenos al DM para más información o pedidos.",
     "price": 7.13,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag9rev2f80/_assets/media/3e7480171843a21def7185bc404833b4.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag9rev2f80/_assets/media/3e7480171843a21def7185bc404833b4.png",
     "stock": 15,
     "variants": []
   },
@@ -253,7 +256,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Este kit completo está diseñado para restaurar la compresión original y garantizar un funcionamiento suave y potente, permitiéndote terminar tus trabajos en menos tiempo.\n\n✅ Todo en uno: Incluye cilindro, pistón, anillos, pasador y seguros para una reparación integral. ✅ Durabilidad extrema: Fabricado con materiales de alta resistencia para soportar las jornadas más exigentes. ✅ Referencia: BC430-077-23 / BC430-077-23.\n\n¡No permitas que un motor desgastado te detenga! 🚜💨",
     "price": 15.85,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag9rqcxusi/_assets/media/7f2e042d4a784e67feceea51dd656e27.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag9rqcxusi/_assets/media/7f2e042d4a784e67feceea51dd656e27.png",
     "stock": 3,
     "variants": []
   },
@@ -273,7 +276,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Asegura un encendido instantáneo y potente con nuestra Bobina de Encendido Fuji HQ143-017-18. Diseñada para ofrecer la máxima fiabilidad eléctrica, esta bobina garantiza que tu motor trabaje de manera estable y eficiente en todo momento.\n\n✅ Alta Tensión: Genera una chispa constante para un arranque sin esfuerzo. ✅ Calidad Fuji: Durabilidad y resistencia probadas para uso intensivo. ✅ Referencia: HQ143-017-18.\n\n¡No pierdas más tiempo tirando de la cuerda! Dale a tu motor la energía que necesita ⚡🚜",
     "price": 9.69,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag9v1jhmga/_assets/media/031e04535af2a230923e90696df5f5fe.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag9v1jhmga/_assets/media/031e04535af2a230923e90696df5f5fe.png",
     "stock": 6,
     "variants": []
   },
@@ -283,7 +286,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Mantener tu bujía en buen estado no solo facilita el encendido, sino que también protege tu motor y optimiza el consumo de combustible. ¡No dejes que una bujía vieja afecte tu productividad!\n\n✅ Encendido Confiable: Tecnología NGK líder en el mercado para una chispa potente y constante. ✅ Versatilidad: Compatible con una amplia gama de maquinaria de jardín y agro. ✅ Durabilidad: Diseñada para resistir altas temperaturas y prevenir la acumulación de depósitos.\n\n¡Pequeños repuestos que hacen grandes diferencias! 🛠️✨",
     "price": 13.5,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag9wifoq2u/_assets/media/de51cd9c9635c8deb55de5bf15595643.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag9wifoq2u/_assets/media/de51cd9c9635c8deb55de5bf15595643.png",
     "stock": 8,
     "variants": []
   },
@@ -323,7 +326,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Un colector desgastado o con fugas puede causar fallos en el ralentí y pérdida de fuerza. Asegura un rendimiento óptimo y una respuesta inmediata del acelerador con este repuesto de alta calidad.\n\n✅ Conexión Perfecta: Diseñado para un sellado hermético que evita entradas de aire no deseadas. ✅ Durabilidad Hustil: Fabricado con materiales resistentes al calor y a los químicos del combustible. ✅ Referencia: S58100-010-27\n\n¡Mantén tu equipo trabajando con la máxima eficiencia! 🛠️✨",
     "price": 20.8,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag9108cmjs/_assets/media/07c07e4672d47174315f3b96397faf56.jpg",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag9108cmjs/_assets/media/07c07e4672d47174315f3b96397faf56.jpg",
     "stock": 1,
     "variants": []
   },
@@ -353,7 +356,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Su diseño permite que la cabeza quede al ras de la superficie, evitando enganches innecesarios y proporcionando un acabado estético y funcional a tu maquinaria. 🛠️✨\n\n✅ Diseño Avellanado: Ideal para superficies donde se requiere un perfil plano. ✅ Máximo Agarre: Encastre tipo estrella (Torx) que evita que la herramienta se deslice, protegiendo la cabeza del tornillo. ✅ Resistencia: Fabricado con materiales de alta calidad para soportar vibraciones y asegurar una sujeción firme.\n\n¡Mantén tus herramientas seguras y con un aspecto profesional! 💪",
     "price": 12,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag92shqmis/_assets/media/3028011c51cae1df089bcefe82965a5c.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag92shqmis/_assets/media/3028011c51cae1df089bcefe82965a5c.png",
     "stock": 1,
     "variants": []
   },
@@ -403,7 +406,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "No te conformes con reparaciones a medias. Este kit completo te permite reconstruir el corazón de tu desbrozadora o motor, garantizando una compresión óptima y el rendimiento de un equipo nuevo. 🛠️✨\n\n✅ Compresión Perfecta: Cilindro con paredes internas de alta precisión para un sellado máximo. ✅ Kit Todo en Uno: Incluye cilindro, pistón, anillos, pasador y seguros. ✅ Máxima Durabilidad: Fabricado con aleaciones resistentes al calor extremo y al desgaste. ✅ Referencia: K4334-219-25.\n\n¡Recupera la eficiencia y vuelve al trabajo con toda la potencia! 💪",
     "price": 10.9,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag93q4emz8/_assets/media/8fa06e11e67709eabc02b1a40a2ce047.jpg",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag93q4emz8/_assets/media/8fa06e11e67709eabc02b1a40a2ce047.jpg",
     "stock": 1,
     "variants": []
   },
@@ -413,7 +416,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Te presentamos nuestro Kit de Aguja y Resorte HGX390-003-20, diseñado para ofrecer un sellado perfecto y un control preciso del flujo de gasolina. El resorte incluido asegura que la aguja recupere su posición instantáneamente, evitando inundaciones y optimizando cada gota de combustible.\n\n✅ Sello de Alta Precisión: Punta vitonada reforzada para un cierre hermético. ✅ Kit de Restauración: Incluye el resorte de presión para un funcionamiento como nuevo. ✅ Referencia: HGX390-003-20.\n\n¡Pequeños ajustes que garantizan la máxima potencia en tu jornada! 🛠️✨",
     "price": 13.38,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag93f3sstg/_assets/media/94825d274852d8d33c31ff3e799a8148.jpg",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag93f3sstg/_assets/media/94825d274852d8d33c31ff3e799a8148.jpg",
     "stock": 1,
     "variants": []
   },
@@ -423,7 +426,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "No permitas que tornillos de baja calidad comprometan tu equipo. Este perno ofrece el ajuste preciso que necesitas para un funcionamiento seguro y duradero. 🛠️✨\n\n✅ Ajuste de Precisión: Rosca uniforme para un roscado suave y firme. ✅ Encastre de Seguridad: Cabeza diseñada para evitar barridos durante el apriete. ✅ Material Robusto: Acero galvanizado de alta calidad resistente al desgaste. ✅ Referencia: A4334-216-25.\n\n¡Detalles que garantizan la potencia de tu trabajo! 💪🚜",
     "price": 10.9,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag93bc-rls/_assets/media/71d3b9eeb51d4aba9a748692f1d55e26.jpg",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag93bc-rls/_assets/media/71d3b9eeb51d4aba9a748692f1d55e26.jpg",
     "stock": 1,
     "variants": []
   },
@@ -433,7 +436,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Te presentamos nuestro Kit de Reparación CRK-ST381-25, que incluye todo lo necesario para renovar las piezas de desgaste de tu carburador. Los diafragmas con el tiempo se endurecen y pierden su flexibilidad, pero con este kit podrás recuperar el rendimiento original de tu motor.\n\n✅ Restauración Completa: Incluye diafragmas, empaques, aguja de flote y resortes. ✅ Calidad Profesional: Materiales resistentes a la corrosión por combustibles modernos. ✅ Referencia: CRK-ST381-25.\n\n¡Ahorra dinero y deja tu equipo como nuevo con un mantenimiento preventivo! ⛽✨",
     "price": 4.18,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag-chyibp4/_assets/media/ed6fd093b82f816a45db1065ca48fcc7.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-chyibp4/_assets/media/ed6fd093b82f816a45db1065ca48fcc7.png",
     "stock": 4,
     "variants": []
   },
@@ -463,7 +466,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Un sinfín desgastado puede hacer que la bomba de aceite deje de funcionar, provocando que la cadena se sobrecaliente y dañe la espada. ¡Evita reparaciones costosas con un reemplazo a tiempo! 🛠️✨  ✅ Engrane de Precisión: Diseñado para un acople perfecto con el tambor de embrague. ✅ Material Resistente: Fabricado en bronce/latón de alta durabilidad para resistir la fricción constante. ✅ Flujo Constante: Asegura que el aceite llegue siempre a la cadena. ✅ Referencia: ST250-005-25.  ¡Protege tu equipo y trabaja con seguridad! 💪",
     "price": 24.76,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag-ctnvwec/_assets/media/f979e9bf3dc14cdc0eebcc589f5b4ba5.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-ctnvwec/_assets/media/f979e9bf3dc14cdc0eebcc589f5b4ba5.png",
     "stock": 10,
     "variants": []
   },
@@ -493,7 +496,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Te presentamos nuestro Juego de Retenedores BC430-002-25, diseñados específicamente para motores de 43cc y 52cc. Estas piezas aseguran que la mezcla de combustible y aire se mantenga dentro del cárter, garantizando un arranque fácil y una potencia constante sin desperdiciar lubricante. 🛠️✨\n\n✅ Sellado de Precisión: Evita fugas de compresión y de aceite. ✅ Compatibilidad Universal: Ideal para la mayoría de motores chinos de 43cc y 52cc. ✅ Material Resistente: Caucho de alta durabilidad que soporta la fricción y el calor. ✅ Referencia: BC430-002-25.\n\n¡Pequeños repuestos, grandes soluciones para tu equipo! 💪🚜",
     "price": 2.09,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag-cnzh-vo/_assets/media/8f1f80bb8026028de237118c58c920e0.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-cnzh-vo/_assets/media/8f1f80bb8026028de237118c58c920e0.png",
     "stock": 8,
     "variants": []
   },
@@ -503,7 +506,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Te presentamos el Codo de Admisión S58100-004-25, la pieza clave que conecta el carburador con el motor. Un codo agrietado permite que entre aire sucio y empobrece la mezcla, lo que puede causar daños graves al cilindro. ¡Cámbialo y asegura un flujo de aire perfecto!\n\n✅ Sellado Hermético: Base metálica reforzada para evitar deformaciones por calor. ✅ Máxima Durabilidad: Fabricado con caucho de alta resistencia a la gasolina y vibraciones. ✅ Referencia: S58100-004-25.\n\n¡Mantén la mezcla perfecta y protege la vida de tu motor! 💪✨",
     "price": 0.8,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag-cuq4dws/_assets/media/710c208ad4a0b9d103b0faa929dcf5bc.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-cuq4dws/_assets/media/710c208ad4a0b9d103b0faa929dcf5bc.png",
     "stock": 8,
     "variants": []
   },
@@ -513,7 +516,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Te presentamos nuestro Kit de Trinquete de Arranque ST180-006-25, la solución ideal para restaurar el sistema de encendido de tu desbrozadora o motosierra. Este kit completo permite que el mecanismo enganche con precisión desde el primer intento. 🛠️✨\n\n✅ Enganche Seguro: Recupera la tracción inmediata al tirar de la cuerda. ✅ Kit Completo: Incluye trinquetes, resortes de retorno y arandela de seguridad. ✅ Material de Alta Tenacidad: Fabricado en polímero reforzado para resistir impactos y fricción. ✅ Referencia: ST180-006-25.\n\n¡Vuelve al trabajo sin frustraciones y con un arranque suave! 💪",
     "price": 15.85,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag-chx835w/_assets/media/61e8dbc4cc8bbb207842864d5d321fe8.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-chx835w/_assets/media/61e8dbc4cc8bbb207842864d5d321fe8.png",
     "stock": 1,
     "variants": []
   },
@@ -533,7 +536,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Te presentamos nuestro Juego de Bridas ET950-004-25, diseñadas específicamente para generadores portátiles tipo ET950. Estas piezas son fundamentales para asegurar la conexión entre el carburador y el bloque del motor, garantizando que la mezcla de combustible sea siempre la correcta. 🔌⛽\n\n✅ Sellado de Precisión: Evita fugas de vacío que inestabilizan el motor. ✅ Material de Alta Resistencia: Fabricadas para soportar la presión y las vibraciones constantes del generador. ✅ Pack de Renovación: Incluye las piezas necesarias para un ajuste firme y seguro. ✅ Referencia: ET950-004-25.\n\n¡Asegura tu fuente de energía y trabaja con total confianza! 💪✨",
     "price": 2.39,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag-c4t3bkg/_assets/media/024d1662565d4aee0599691e0272611d.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-c4t3bkg/_assets/media/024d1662565d4aee0599691e0272611d.png",
     "stock": 7,
     "variants": []
   },
@@ -543,7 +546,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "description": "Te presentamos nuestro Kit de Reparación CRK-ST420-20. Este set incluye todo lo necesario para renovar el sistema de combustión, desde los diafragmas hasta la aguja, asegurando que tu motor reciba la mezcla perfecta de aire y gasolina. ⛽✨\n\n✅ Restauración Completa: Incluye diafragmas, empaques, aguja de flote y palanca de ajuste. ✅ Máxima Compatibilidad: Diseñado específicamente para modelos de alto rendimiento como SR420 y MS361. ✅ Calidad Profesional: Materiales resistentes que prolongan la vida útil de tu carburador. ✅ Referencia: CRK-ST420-20.\n\n¡Dale a tu herramienta el cuidado que merece y vuelve al trabajo con toda la potencia! 💪",
     "price": 3.04,
     "category": "Repuestos",
-    "imageUrl": "\thttps://desbrozadora.my.canva.site/dag-c2uvipi/_assets/media/af5390b9589d56bf7c66177ddc10d31a.png",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-c2uvipi/_assets/media/af5390b9589d56bf7c66177ddc10d31a.png",
     "stock": 4,
     "variants": []
   },
@@ -556,6 +559,461 @@ export const INITIAL_PRODUCTS: Product[] = [
     "imageUrl": "https://desbrozadora.my.canva.site/dag-dexblig/_assets/media/11accbca418db9d6b76b3bfff4d8cfda.png",
     "stock": 5,
     "variants": []
+  },
+  {
+    "id": "1772117836997",
+    "name": "Cinta de Arranque Para Maquinas Chinas BC430/520",
+    "description": "Recupera la funcionalidad de tu maquinaria con este repuesto de alta tensión, diseñado para ofrecer un rebote preciso y duradero. ¡La solución económica y eficiente para que tu trabajo no se detenga! 🚜💨\n\n✅ Alta Resistencia: Fabricado en acero elástico de primera calidad para soportar miles de arranques.\n✅ Tensión Óptima: Diseñado para un retorno suave y constante del cordón de arranque.\n✅ Versatilidad: Compatible con diversos modelos de motores pequeños, motobombas y generadores.",
+    "price": 1.69,
+    "category": "CIntas de Arranque",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcqdpgmvi/_assets/media/d7ddab06aec0eddda4b9bd139127c156.png",
+    "stock": 12,
+    "variants": []
+  },
+  {
+    "id": "1772119812897",
+    "name": "Cinta de Arranque Para stihl  MS361/661/MS382",
+    "description": "Diseñado con acero de alta flexibilidad, este repuesto garantiza que el cordón de arranque regrese a su posición de forma inmediata y suave. ¡Una reparación rápida que te ahorra tiempo y dinero! 🚜💨\n\n✅ Material de Alta Calidad: Acero templado resistente a la fatiga para una larga vida útil.\n✅ Compatibilidad: Ideal para motores estacionarios, motobombas y equipos de jardinería.\n✅ Instalación Directa: Diseñado para encajar perfectamente en la polea del arrancador.\n✅ Referencia: ST361-015-25.\n\n¡Mantén tu maquinaria en óptimas condiciones con los mejores repuestos! 🔧✨",
+    "price": 1.8,
+    "category": "CIntas de Arranque",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcb4kiaku/_assets/media/4759953aa6147f8fdaccb44c5242246d.png",
+    "stock": 7,
+    "variants": []
+  },
+  {
+    "id": "1772120154064",
+    "name": "Cinta de Arranque Para Stihl MS660",
+    "description": "Específicamente diseñada para modelos de alta potencia, esta cinta ofrece la tensión exacta necesaria para soportar el trabajo pesado en el campo o la montaña. 🪵🪓\n\n✅ Compatibilidad Exacta: Diseñada para el modelo Stihl MS660 y equipos compatibles.\n✅ Máxima Durabilidad: Acero de alta resistencia que soporta ciclos de arranque intensivos.\n✅ Ajuste Perfecto: Incluye el soporte plástico para una instalación más sencilla y precisa.\n✅ Referencia: ST660-103-18.\n\n¡No dejes que un detalle detenga tu productividad! 🛠️✨",
+    "price": 2.48,
+    "category": "CIntas de Arranque",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcb518nao/_assets/media/905873a3c06697733e789042aeffbf2a.png",
+    "stock": 10,
+    "variants": []
+  },
+  {
+    "id": "1772124759420",
+    "name": "Cinta de Arranque Para Stihl SR420",
+    "description": "Diseñada para resistir el uso continuo y las condiciones exigentes del campo, esta cinta garantiza un retorno potente y fiable del cordón, permitiéndote encender tu atomizadora con el mínimo esfuerzo. 💪⚙️\n\n✅ Especializada: Ajuste perfecto para el modelo Stihl SR420 y atomizadoras compatibles.\n✅ Máxima Tensión: Fabricada en acero elástico de alta calidad para un rebote instantáneo.\n✅ Durabilidad Extrema: Resistente a la fatiga del metal por arranques repetitivos.\n✅ Referencia: SR-420-007-25.\n\n¡Mantén tu equipo Stihl trabajando como nuevo! 🛠️✨",
+    "price": 1.8,
+    "category": "CIntas de Arranque",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcch2tvas/_assets/media/b60ea572ee001cbc7213f362f274b5fd.png",
+    "stock": 9,
+    "variants": []
+  },
+  {
+    "id": "1772132353506",
+    "name": "Cinta de Arranque Con Base  Para Maquinas Chinas 5800",
+    "description": "Diseñado para ofrecer una tensión constante y una larga vida útil, este repuesto es la clave para que tu maquinaria encienda al primer intento, sin tirones fallidos. ¡Una reparación sencilla que marca la diferencia en el campo y el taller! 🚜💨\n\n✅ Tensión de Precisión: Fabricado en acero elástico de alta resistencia para un retorno inmediato.\n✅ Durabilidad Garantizada: Tratamiento térmico para soportar el uso intensivo y evitar deformaciones.\n✅ Fácil Reemplazo: Viene alojado en su soporte para facilitar una instalación segura y rápida.\n✅ Referencia: S58100-007-15.\n\n¡Mantén tus equipos siempre operativos con repuestos de calidad! 🔧✨",
+    "price": 2.03,
+    "category": "CIntas de Arranque",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcc7obcqq/_assets/media/10c47f9cce57d0ee10d12247dfc69b65.png",
+    "stock": 5,
+    "variants": []
+  },
+  {
+    "id": "1772133678195",
+    "name": "Cinta de Arranque Para Stihl MS170/180/250/440",
+    "description": "Fabricado con acero de alta flexibilidad, este resorte garantiza que el sistema de arranque de tu motor recupere su tensión original, permitiendo encendidos suaves y rápidos en cada tirón. 💪💨\n\n✅ Material Premium: Acero templado diseñado para resistir la fatiga y el uso constante.\n✅ Retorno Inmediato: Tensión calibrada para una recuperación del cordón sin esfuerzo.\n✅ Versatilidad: Compatible con diversos modelos de motores pequeños y maquinaria de jardín.\n✅ Referencia: ST170-008-25.\n\n¡Repara con confianza y mantén tu equipo como nuevo! 🔧✨",
+    "price": 1.8,
+    "category": "CIntas de Arranque",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcc4t9i-m/_assets/media/3a5082de3af6a982de44f69d45836731.png",
+    "stock": 7,
+    "variants": []
+  },
+  {
+    "id": "1772134251234",
+    "name": "Cinta de Arranque Para Stihl 381",
+    "description": "Si notas que el cordón de arranque regresa con lentitud o se queda suelto, es una señal clara de fatiga en el resorte. Cámbialo a tiempo y evita complicaciones en medio de tus labores. ¡Calidad y resistencia en cada giro! 🚜💨\n\n✅ Material de Alta Resistencia: Acero elástico de grado industrial para soportar tensiones constantes.\n✅ Retorno Preciso: Diseñado para una recuperación inmediata y fluida del cordón.\n✅ Durabilidad Extrema: Resistente al desgaste mecánico y a la fatiga del metal.\n✅ Referencia: ST380-104-18.\n\n¡Dale a tu motor el cuidado que merece con repuestos de confianza! 🔧✨",
+    "price": 1.8,
+    "category": "CIntas de Arranque",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahccydb9yu/_assets/media/4759953aa6147f8fdaccb44c5242246d.png",
+    "stock": 14,
+    "variants": []
+  },
+  {
+    "id": "1772135067234",
+    "name": "Cinta de Arranque Para Husqvarna 61/272xp/281",
+    "description": "Fabricado con acero de alta calidad, este resorte garantiza que el cordón regrese a su lugar de forma instantánea y segura, evitando atascos y facilitando cada encendido. 🛠️✨\n\n✅ Tensión Superior: Diseñado para un retorno rápido y fluido del sistema de arranque.\n✅ Resistencia Térmica: Soporta las condiciones de trabajo más exigentes sin perder su forma.\n✅ Durabilidad: Acero templado de alta flexibilidad para una vida útil prolongada.\n✅ Referencia: HQ61-003-25.\n\n¡Mantén tu equipo siempre listo para la acción! 💪🚜",
+    "price": 1.8,
+    "category": "CIntas de Arranque",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcczs7uty/_assets/media/4bb89568851c862109098e0b1bac6549.png",
+    "stock": 8,
+    "variants": []
+  },
+  {
+    "id": "1772135947562",
+    "name": "Cinta de Arranque Para Husqvarna 365/372",
+    "description": "Este repuesto está diseñado específicamente para ofrecer una tensión de alta respuesta, asegurando que el cordón de arranque regrese a su posición original de forma inmediata. ¡No pierdas tiempo con tirones fallidos y vuelve al trabajo con total confianza! 💪💨\n\n✅ Acero de Alta Calidad: Gran resistencia elástica para soportar el uso intensivo en el campo.\n✅ Retorno Eficiente: Evita atascos y prolonga la vida útil de tu polea de arranque.\n✅ Diseño Robusto: Fabricado para resistir la fatiga del metal incluso en condiciones exigentes.\n✅ Referencia: HUSQ365-007-25.\n\n¡Mantén tu maquinaria trabajando como nueva con repuestos de calidad! 🛠️✨",
+    "price": 1.8,
+    "category": "CIntas de Arranque",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcc2i0uje/_assets/media/3bd92acefbe849d48bb70a79aa335bfa.png",
+    "stock": 6,
+    "variants": []
+  },
+  {
+    "id": "1772137314880",
+    "name": "Lanza Fumigadora",
+    "description": "deal para aplicaciones agrícolas y de jardinería donde necesitas cubrir áreas amplias o llegar al centro de follajes densos de forma cómoda y eficiente. ¡Haz que cada gota cuente! 🚜✨\n\n✅ Longitud Ideal: 60 cm de largo para mayor cobertura y comodidad durante el trabajo.\n✅ Compatibilidad Total: Diseñada específicamente para modelos de fumigadora tipo 768.\n✅ Control Ergonómico: Empuñadura antideslizante de color naranja para un agarre seguro y visible.\n✅ Construcción Duradera: Materiales resistentes a químicos y corrosión para una larga vida útil.\n\n¡Potencia tu equipo de fumigación hoy mismo! 🛠️🌱",
+    "price": 4.58,
+    "category": "Lanzas",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcdbt0l2g/_assets/media/cc5d1d806bf1eeb56861fb6a9bcda9a0.png",
+    "stock": 37,
+    "variants": [
+      {
+        "id": "1772222494508",
+        "name": "Lanza de 90",
+        "price": 6.99,
+        "stock": 15
+      },
+      {
+        "id": "1772222845792",
+        "name": "Lanza de 60",
+        "price": 4.4,
+        "stock": 37
+      }
+    ]
+  },
+  {
+    "id": "1772225902391",
+    "name": "Valvula de Descompresion para Todas las Motosierras Stihl",
+    "description": "Su función es simple pero vital: libera parte de la presión en el cilindro durante el arranque, permitiendo que el cordón se deslice suavemente y protegiendo tanto tu brazo como el sistema de poleas de tu equipo.\n\n✅ Encendido Suave: Reduce significativamente la resistencia al tirar de la cuerda.\n✅ Protección Mecánica: Menor impacto y desgaste para el arrancador manual y el pistón.\n✅ Compatibilidad: Diseñada para modelos de alta potencia como la Stihl MS660 y similares.\n✅ Referencia: ST660-072-18.\n\n¡Haz que el trabajo pesado comience de la manera más ligera! 🛠️✨",
+    "price": 4.49,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcjgjlixu/_assets/media/6ca93bff9970aba8e7d9c94bce351753.png",
+    "stock": 38,
+    "variants": []
+  },
+  {
+    "id": "1772226645654",
+    "name": "Tuerca de Barra Para Todas las Motosierras Stihl",
+    "description": "Fabricada bajo altos estándares de resistencia, esta tuerca garantiza que las vibraciones del motor no comprometan la estabilidad de tus herramientas. ¡Calidad que se siente en cada vuelta! 🪵🪓\n\n✅ Ajuste de Precisión: Rosca diseñada específicamente para modelos de la marca Stihl.\n✅ Alta Resistencia: Material metálico tratado para soportar la presión y el desgaste.\n✅ Seguridad Garantizada: Ideal para asegurar piezas en motosierras, desbrozadoras y más.\n✅ Referencia: STH-002-27.\n\n¡Mantén tus equipos siempre a punto con los mejores repuestos! ✨🔧",
+    "price": 31.56,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcjenwmcq/_assets/media/8983778b4732aafdfc8c7e0c004cdb24.png",
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "1772227889449",
+    "name": "Switch Completo (19mm) Para Maquinas Chinas BC430/BC520/Mitsubishi TL43",
+    "description": "Con un diseño ergonómico y gatillos de alta sensibilidad, este mando te permite trabajar por horas con un control preciso sobre el motor. ¡Repara hoy y vuelve al campo con todo el poder! 🚜💨\n\n✅ Mando Ergonómico: Agarre antideslizante diseñado para reducir la fatiga en la mano.\n✅ Sistema Todo en Uno: Incluye gatillo de aceleración, bloqueo de seguridad y switch de parada.\n✅ Compatibilidad Versátil: Perfecto para modelos BC430, BC520, TL43 y similares.\n✅ Instalación Lista: Viene con cableado protegido y terminales listos para conectar.\n✅ Referencia: BC430-009-25.",
+    "price": 7.78,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcjyixt3q/_assets/media/c78b558f087cb18d7104e39737d18032.png",
+    "stock": 5,
+    "variants": []
+  },
+  {
+    "id": "1772228836349",
+    "name": "Pinion o Sprocket 3/8-7 Mejorados Vienen en Tubo Plastico (Empaque de 10 unidades)",
+    "description": "Si sientes vibraciones inusuales o notas un desgaste excesivo en los eslabones, es momento de renovar tu piñón. Este sprocket está diseñado para ofrecer un encaje perfecto y una tracción constante, asegurando cortes más limpios y rápidos. 🪓💨\n\n✅ Rendimiento Superior: Configuración de 7 dientes para un paso de cadena de 3/8\".\n✅ Alta Resistencia: Fabricado en aleación metálica de alta dureza para soportar la fricción constante.\n✅ Menos Desgaste: Superficie de contacto optimizada para prolongar la vida útil de la cadena.\n✅ Referencia: ST660-013-18.",
+    "price": 15.78,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcjc7sfpa/_assets/media/a3d9761a3f52f5e89534c7c1ecfb10a2.png",
+    "stock": 10,
+    "variants": []
+  },
+  {
+    "id": "1772233371526",
+    "name": "Silenciador Con Soporte Para Stihl MS210 MS230 MS250",
+    "description": "Un silenciador en buen estado optimiza el flujo de aire del motor, evitando el sobrecalentamiento y manteniendo la potencia de tu motosierra en cada corte. 🪓💨\n\n✅ Reducción de Ruido: Diseñado para cumplir con los niveles de sonido adecuados para el operario.\n✅ Flujo de Escape Eficiente: Mejora el rendimiento térmico del cilindro.\n✅ Compatibilidad: Ideal para modelos Stihl MS210, MS230 y MS250.\n✅ Resistencia: Acero con recubrimiento resistente a altas temperaturas.\n✅ Referencia: ST250-008-25.\n\n¡Renueva tu equipo y trabaja con mayor comodidad! 🛠️✨",
+    "price": 7.88,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcjwfyq0q/_assets/media/f075bd08d2c5d57e9296598ec4c77e4e.png",
+    "stock": 5,
+    "variants": []
+  },
+  {
+    "id": "1772237723774",
+    "name": "ARRANQUE COMPLETO POLEA DOBLE PARA MAQUINAS CHINAS 5800",
+    "description": "✅ Sistema de Polea Doble: Diseñado para reducir el esfuerzo al tirar y mejorar la durabilidad del mecanismo.\n✅ Instalación Directa: Conjunto pre-ensamblado que incluye carcasa, polea, resorte y cordón.\n✅ Compatibilidad: Ideal para motosierras chinas modelo 5800 y similares de 52cc/58cc.\n✅ Referencia: S5800-013-25.\n\n¡Calidad y resistencia para que tu motor nunca se detenga! ✨⚙️",
+    "price": 7.89,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahcj7k0mmu/_assets/media/682ca3f3a8687cef1901e8f165fe5294.png",
+    "stock": 2,
+    "variants": []
+  },
+  {
+    "id": "1772238024478",
+    "name": "Arranque Completo Para GX35 4 Tiempos",
+    "description": "Este conjunto completo está diseñado para ofrecer un encendido suave y fiable, eliminando la frustración de los tirones fallidos. ¡Instalación directa para que tu equipo no pase ni un día más en el taller! 🚜✨\n\n✅ Listo para Instalar: Conjunto pre-ensamblado con carcasa, polea, resorte y cordón.\n✅ Diseño Compacto: Fabricado con polímeros de alta resistencia para soportar el uso rudo.\n✅ Compatibilidad: Específicamente diseñado para motores tipo GX35 y equipos multifuncionales.\n✅ Referencia: GX35-002-27.\n\n¡Mantén tu motor siempre listo para arrancar! 🔧🚀",
+    "price": 8.79,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahckoyoyns/_assets/media/3072622f83fbbbd9cadb2786a446e5d2.png",
+    "stock": 2,
+    "variants": []
+  },
+  {
+    "id": "1772239054123",
+    "name": "Arranque  Para Fumigadora Chinas Pequeña",
+    "description": "Este conjunto viene totalmente ensamblado y listo para montar, ahorrándote tiempo y esfuerzo en reparaciones difíciles. Solo retira el anterior, instala este nuevo y ¡listo para arrancar! 🚀✨\n\n✅ Ensamble Total: Incluye carcasa, polea interna, resorte de retroceso y cordón con mango.\n✅ Diseño Compacto: Fabricado en polímero de alta densidad para máxima ligereza y resistencia.\n✅ Mecanismo Fiable: Sistema de trinquete diseñado para un enganche suave y efectivo.\n✅ Referencia: AR-001-15.\n\n¡Haz que el encendido de tu maquinaria sea siempre a la primera! 💪⚙️",
+    "price": 5.66,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahckdhucgk/_assets/media/d6a1297459f453b0ff076d7a7785254c.png",
+    "stock": 2,
+    "variants": []
+  },
+  {
+    "id": "1772242036437",
+    "name": "Clutch Completo Con tornillo y Arandelas Para BC430/520/ Mitsubishi TL43",
+    "description": "Si sientes que tu equipo pierde fuerza al contacto con la maleza o escuchas ruidos metálicos al acelerar, es muy probable que las zapatas de tu embrague necesiten un cambio. ¡Recupera el rendimiento original de tu herramienta! 🚜💨\n\n✅ Material de Alta Fricción: Diseñado para un agarre firme y sin deslizamientos innecesarios.\n✅ Resorte Reforzado: Tensión calibrada para un acople suave a las revoluciones correctas.\n✅ Compatibilidad: Ideal para desbrozadoras chinas de 43cc y 52cc (Modelos BC430/BC520).\n✅ Referencia: BC430-005-18.\n\n¡Haz que tu trabajo en el campo sea más productivo con repuestos de calidad! 🛠️✨",
+    "price": 4.97,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dahckdsivku/_assets/media/9123a3517670baf4a19e03051d0e8ead.png",
+    "stock": 21,
+    "variants": []
+  },
+  {
+    "id": "1772243890157",
+    "name": "Clutch For FS220-FS280",
+    "description": "Te presentamos nuestro Embrague (Clutch) FS220-004-25, diseñado para soportar las jornadas más exigentes. Este componente asegura que la fuerza del motor se transmita de manera constante y segura a tu cuchilla o cabezal. ¡Recupera la eficiencia de tu equipo hoy mismo! ✨\n\n✅ Enganche Firme: Resortes de alta resistencia que evitan el deslizamiento. ✅ Material de Alta Fricción: Diseñado para un agarre máximo y menor desgaste térmico. ✅ Kit Completo: Incluye los bujes de montaje para una instalación precisa. ✅ Compatibilidad: Ideal para modelos profesionales de las series FS220 y FS280.\n\n¡Mantén tu herramienta trabajando al 100% con repuestos de confianza! 💪⚙️",
+    "price": 6.09,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-omv2uf4/_assets/media/baf3e8606262db4fb16795d41c5632d2.png",
+    "stock": 9,
+    "variants": []
+  },
+  {
+    "id": "1768232592104",
+    "name": "Polea para 5200/5800 Paquete de 8 Unidades",
+    "description": "Si notas que la cuerda se traba o que la polea tiene grietas, es momento de reemplazarla antes de que se rompa por completo en pleno trabajo. Nuestra referencia S58100-006-15 está diseñada para ofrecer un giro suave y una durabilidad superior.\n\n✅ Giro Fluido: Minimiza el esfuerzo necesario al tirar de la cuerda. ✅ Material Reforzado: Polímero de alta densidad que resiste el impacto y la fricción. ✅ Ajuste Preciso: Diseñada para encajar perfectamente en el sistema de rebobinado. ✅ Referencia: S58100-006-15.\n\n¡Asegura un arranque fácil y sin complicaciones! 💪✨",
+    "price": 14,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-n9-jxsi/_assets/media/76f3df65045e8bfb61fab94a1810d5e4.png",
+    "stock": 1,
+    "variants": []
+  },
+  {
+    "id": "1768233498414",
+    "name": "Filtro De Aire For Husqvarna 372 ",
+    "description": "Te presentamos nuestra referencia HQ372-005-25, diseñada para motosierras de alto rendimiento. Su estructura de papel plisado de alta densidad atrapa hasta las partículas más finas de serrín y polvo, permitiendo que solo entre aire limpio a la cámara de combustión. 💨✨\n\n✅ Filtración Superior: Máxima protección contra el desgaste interno. ✅ Fácil Instalación: Diseño exacto para un ajuste hermético sin fugas. ✅ Rendimiento Óptimo: Mantiene el flujo de aire constante para un corte más rápido. ✅ Referencia: HQ372-005-25.\n\n¡No esperes a que tu motor falle, cambia tu filtro a tiempo y trabaja al máximo! 💪🔧",
+    "price": 5.5,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-om-dzg8/_assets/media/afecef1beceaa94086a722b923999982.png",
+    "stock": 1,
+    "variants": []
+  },
+  {
+    "id": "1768235487947",
+    "name": "Filtro de Aire FS 160-180-220-250 450",
+    "description": "Te presentamos el Filtro de Aire FS220-002-25, el aliado perfecto para tu desbrozadora o motoguadaña. Su diseño de papel plisado premium garantiza un flujo de aire constante mientras bloquea hasta el polvo más fino, protegiendo el corazón de tu herramienta. 🍃✨\n\n✅ Filtración de Alta Eficiencia: Atrapa partículas de serrín, tierra y polen. ✅ Estructura Reforzada: Marco de polímero que asegura un sellado hermético en la caja de aire. ✅ Larga Duración: Materiales diseñados para extender los intervalos de mantenimiento. ✅ Referencia: FS220-002-25.\n\n¡No dejes que la suciedad detenga tu trabajo! Mantén tu motor fresco y potente. 💪🪚",
+    "price": 1.4,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-ocv6uzq/_assets/media/47665e37272b28397edd9f54819c7231.png",
+    "stock": 15,
+    "variants": []
+  },
+  {
+    "id": "1768236716401",
+    "name": "Filtro De Aire Para OLEOMAC 753-746",
+    "description": "Un filtro saturado obliga al motor a trabajar con una mezcla \"rica\", aumentando el consumo de combustible y provocando depósitos de carbón en el cilindro. Cambiarlo a tiempo no solo protege tu inversión, sino que asegura que cada jornada sea más productiva y eficiente. 🍃✨\n\n✅ Filtración de Alta Gama: Papel plisado diseñado para retener las partículas más finas de polvo y vegetación. ✅ Estructura Resistente: Marco reforzado para un ajuste preciso y sellado total. ✅ Modelos Compatibles: Diseñado específicamente para series de alto desempeño como 753 y 746. ✅ Referencia: OLEO-001-15.\n\n¡No dejes que el polvo detenga tu potencia! 💪🪚",
+    "price": 7.5,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-ocn6ahk/_assets/media/1dccb3d400448117ce3e157bc32dab3d.png",
+    "stock": 7,
+    "variants": []
+  },
+  {
+    "id": "1768237260301",
+    "name": "Clutch para Olemac 44-741 ",
+    "description": "Te presentamos nuestro Clutch SP741-002-25, diseñado específicamente para modelos Oleo-Mac. Este componente es el encargado de transmitir toda la potencia del motor hacia el cabezal de corte. ¡Cámbialo y vuelve a trabajar con la eficiencia de una máquina nueva! 🌾✨\n\n✅ Enganche Preciso: Resortes de alta tensión para un acople suave y seguro. ✅ Material de Fricción Premium: Máximo agarre sin deslizamientos innecesarios. ✅ Durabilidad Garantizada: Resistente a las altas temperaturas generadas por el trabajo intensivo. ✅ Referencia: SP741-002-25.\n\n¡No dejes que un embrague patinando arruine tu jornada de trabajo! 💪🔥",
+    "price": 6.75,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-obbchfw/_assets/media/5b2ddab3ec6fe6a8eb1b3c8d692bf567.png",
+    "stock": 2,
+    "variants": []
+  },
+  {
+    "id": "1768239705775",
+    "name": "Filtro De Gasolina Para Stihl 660 Boca Delgada Paquete de 12 Unidades",
+    "description": "Te presentamos nuestro Filtro de Gasolina de Boca Delgada (Ref. ST0000-353-21), diseñado específicamente para modelos de alto desempeño como la Stihl 660. Su medio filtrante de alta densidad asegura que solo el combustible más limpio llegue al motor, evitando fallos de aceleración y costosas reparaciones. 🛠️🪚\n\n✅ Filtración de Precisión: Retiene partículas diminutas y residuos del tanque. ✅ Diseño de Boca Delgada: Asegura un ajuste hermético en la manguera de combustible. ✅ Compatibilidad Profesional: Ideal para motosierras de gran cilindrada. ✅ Referencia: ST0000-353-21.\n\n¡Pequeños repuestos que garantizan grandes jornadas de trabajo! 💪🌲",
+    "price": 8.55,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-oxk2kbo/_assets/media/774af512e8a21608d9e1ce6378c58309.png",
+    "stock": 12,
+    "variants": []
+  },
+  {
+    "id": "1768241105086",
+    "name": "Clutch For FS220-FS280 ",
+    "description": "Te presentamos nuestro Embrague (Clutch) FS220-004-25, diseñado para soportar las jornadas más exigentes. Este componente asegura que la fuerza del motor se transmita de manera constante y segura a tu cuchilla o cabezal. ¡Recupera la eficiencia de tu equipo hoy mismo! ✨\n\n✅ Enganche Firme: Resortes de alta resistencia que evitan el deslizamiento. ✅ Material de Alta Fricción: Diseñado para un agarre máximo y menor desgaste térmico. ✅ Kit Completo: Incluye los bujes de montaje para una instalación precisa. ✅ Compatibilidad: Ideal para modelos profesionales de las series FS220 y FS280.\n\n¡Mantén tu herramienta trabajando al 100% con repuestos de confianza! 💪⚙️",
+    "price": 5.35,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-omv2uf4/_assets/media/baf3e8606262db4fb16795d41c5632d2.png",
+    "stock": 3,
+    "variants": []
+  },
+  {
+    "id": "1768241351312",
+    "name": "Transmision For BC430-520 28mmx9 ",
+    "description": "iseñado para soportar largas jornadas de trabajo, este cabezal cuenta con tecnología de rodamientos sellados que evitan la entrada de polvo y residuos, garantizando un giro suave y una vida útil prolongada. ¡Ideal para quienes no se detienen ante la maleza más densa! 🌾✨\n\n✅ Ingeniería de Precisión: Calidad tipo Japón para un desempeño profesional. ✅ Ajuste Perfecto: Compatible con tubos de 28mm y eje de 9 estrías. ✅ Durabilidad Extrema: Cuerpo de aleación robusto y resistente a impactos. ✅ Referencia: BC430-106-27.\n\n¡Renueva la fuerza de tu equipo y trabaja con confianza! 💪⚙️",
+    "price": 10.9,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-ohjpxy4/_assets/media/9571ffbc7954daa4af9f9c381ae4bb3a.png",
+    "stock": 9,
+    "variants": []
+  },
+  {
+    "id": "1768241960640",
+    "name": "Polea Plastica para BC430-BC520 Paquete de 10 Unidades",
+    "description": "Con el tiempo, las muescas internas de la polea se desgastan por la fricción, haciendo que el arranque \"patine\" o se trabe. Renuévala con nuestra polea de alta resistencia y vuelve a encender tu equipo con suavidad y a la primera. ⚡🪚\n\n✅ Material de Alta Tenacidad: Polímero diseñado para resistir tirones fuertes y calor. ✅ Diseño de Precisión: Asegura el correcto rebobinado de la cuerda de arranque. ✅ Referencia: BC430-069-27. ✅ Compatibilidad: Ideal para modelos tipo BC430 y similares.\n\n¡Mantén tu equipo listo para la acción! 💪✨",
+    "price": 15.5,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-ouamkmo/_assets/media/b0a81b4a7f8f5375a05d570926936713.png",
+    "stock": 1,
+    "variants": []
+  },
+  {
+    "id": "1768243704814",
+    "name": "Boquilla Giratoria Grande For Fumigadora 768 ",
+    "description": "Gracias a su diseño ajustable y giratorio, permite dirigir la nube de aspersión con exactitud, garantizando que el producto penetre en el follaje de manera uniforme. Ideal para fumigadoras motorizadas tipo 768 que requieren un trabajo pesado y constante. 💧✨\n\n✅ Cobertura Amplia: Diseño de campana que optimiza la dispersión del líquido. ✅ Ajuste Versátil: Conector de bronce giratorio para orientar el flujo según la necesidad del cultivo. ✅ Material Duradero: Plástico de alta densidad resistente a químicos agrícolas y boquilla interna de precisión. ✅ Referencia: F768-061-31.\n\n¡Optimiza tu tiempo y tus insumos con el equipo correcto! 💪 Fertilidad y protección en cada descarga.",
+    "price": 5.75,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-oucdabs/_assets/media/c0b9583d82d7244eaa05b898e2ab351f.png",
+    "stock": 4,
+    "variants": []
+  },
+  {
+    "id": "1768244364932",
+    "name": "Resorte For 5200 Paquete de 40 Unidades",
+    "description": "Te presentamos nuestra referencia S58100-005-15, un resorte de torsión diseñado con acero de alta memoria elástica. Es el encargado de devolver los trinquetes a su posición original para que el sistema de arranque esté siempre listo para el siguiente tirón. ¡Una pieza pequeña que evita grandes frustraciones en el campo! ⚡✨\n\n✅ Máxima Elasticidad: Recupera su forma original incluso tras miles de ciclos de arranque. ✅ Resistencia a la Corrosión: Tratamiento térmico para soportar la humedad y el trabajo pesado. ✅ Ajuste Universal: Compatible con diversos sistemas de arranque de desbrozadoras y motosierras. ✅ Referencia: S58100-005-15.\n\n¡No sufras más con un arranque flojo! Renuévalo hoy mismo. 💪⚙️",
+    "price": 10,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-oz1aneg/_assets/media/83e4e18c7eb92b85d349196f2099a0b4.png",
+    "stock": 2,
+    "variants": []
+  },
+  {
+    "id": "1768246006755",
+    "name": "Tapon de la Manguera para Maquinas Chinas",
+    "description": "Con el tiempo y el contacto constante con la gasolina, la goma tiende a endurecerse o agrietarse, provocando derrames peligrosos y pérdida de presión en el sistema. Cambiarlo es una de las reparaciones más sencillas y económicas para mantener tu equipo impecable. ✨🛠️\n\n✅ Sellado Hermético: Evita la entrada de suciedad al tanque y la salida de combustible. ✅ Diseño de Doble Orificio: Perfecto para sistemas con manguera de succión y retorno. ✅ Material Resistente: Goma de alta calidad diseñada para no degradarse con los hidrocarburos. ✅ Referencia: Tap-001.\n\n¡Un pequeño detalle que hace una gran diferencia en la limpieza de tu trabajo! 💪🍃",
+    "price": 26.74,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-o1hyyi8/_assets/media/1106366dfb796e2e9b44ca4d21594fc7.png",
+    "stock": 1,
+    "variants": [
+      {
+        "id": "1768335741253",
+        "name": "Paquetes de 25 unidades",
+        "price": 6.25,
+        "stock": 3
+      },
+      {
+        "id": "1768336035736",
+        "name": "Individual",
+        "price": 0.25,
+        "stock": 13
+      }
+    ]
+  },
+  {
+    "id": "1768247276665",
+    "name": "Amortiguador Pequeño For Husqvarna 61",
+    "description": "Con el tiempo, la goma del amortiguador pierde su elasticidad o se agrieta por el contacto con aceites y el calor, haciendo que la máquina se sienta rígida o inestable. Cambiar estos pequeños soportes te devuelve la suavidad de manejo y evita la fatiga muscular. ✨🌲\n\n✅ Absorción Superior: Goma de alta densidad que aísla eficazmente las vibraciones del motor. ✅ Instalación Directa: Incluye el perno roscado reforzado para un montaje rápido y seguro. ✅ Resistencia Profesional: Fabricado para soportar los impactos y la torsión del corte forestal. ✅ Referencia: HQ61-011-27.\n\n¡Trabaja más cómodo y protege los componentes internos de tu equipo! 💪⚙️",
+    "price": 45,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-o-qfx0w/_assets/media/e9ddf685f50ab2b737675ab277ec1b7d.png",
+    "stock": 1,
+    "variants": [
+      {
+        "id": "1768337028822",
+        "name": "Paquete de 25 Unidades",
+        "price": 45,
+        "stock": 3
+      },
+      {
+        "id": "1768337043492",
+        "name": "Individual",
+        "price": 1.8,
+        "stock": 2
+      }
+    ]
+  },
+  {
+    "id": "1768253170988",
+    "name": "Amortiguador Grande For Husqvarna 61",
+    "description": "Te presentamos nuestro Amortiguador Grande HQ61-012-27, diseñado específicamente para la robusta Husqvarna 61. Este soporte de goma reforzada absorbe los picos de vibración del motor, permitiéndote realizar cortes más precisos con mucho menos esfuerzo físico. 🌲✨\n\n✅ Goma de Alta Resistencia: Formulada para soportar el calor del motor y la exposición a aceites. ✅ Estructura Robusta: Base metálica vulcanizada con perno de acero para un anclaje firme. ✅ Control Total: Recupera la sensación de \"máquina nueva\" y mejora el guiado en cortes profundos. ✅ Referencia: HQ61-012-27.",
+    "price": 0,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-pdnscbi/_assets/media/f16477880fb35cda3d0bc1eb9583ae87.png",
+    "stock": 0,
+    "variants": [
+      {
+        "id": "1768253598386",
+        "name": "Paquete de 25 unidades",
+        "price": 47.5,
+        "stock": 3
+      },
+      {
+        "id": "1768337947858",
+        "name": "Individual",
+        "price": 1.9,
+        "stock": 9
+      }
+    ]
+  },
+  {
+    "id": "1768254351847",
+    "name": "Kit Amortiguador For 6500-GX390",
+    "description": "Nuestro Kit de Amortiguador Y6ET-6500-25 está diseñado específicamente para motores de gran tamaño como el GX390. Este soporte de goma reforzada con base metálica actúa como un escudo, absorbiendo el impacto del motor para que tu generador trabaje de forma más silenciosa y segura. ✨🛠️\n\n✅ Estructura de Servicio Pesado: Soporta el peso y torque de motores de 13HP a 15HP. ✅ Base Vulcanizada: Unión ultra resistente entre el metal y el elastómero para evitar desprendimientos. ✅ Instalación de Precisión: Pernos roscados de alta resistencia para un anclaje perfecto al marco. ✅ Referencia: Y6ET-6500-25.\n\n¡No permitas que la vibración acorte la vida de tu planta eléctrica! 💪🔋",
+    "price": 9.9,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-pfsnogu/_assets/media/61eba18092c3f9158e8fce610d758768.png",
+    "stock": 1,
+    "variants": []
+  },
+  {
+    "id": "1768255187820",
+    "name": "Cabezal para Shindaiwa | Paquete de 20 Unidades",
+    "description": "Este cabezal está diseñado para el trabajo pesado, permitiendo un flujo de nylon constante y resistente a los impactos contra rocas o bordes. Ideal para mantener fincas, jardines extensos y áreas municipales con la calidad que solo un equipo Shindaiwa B45 puede ofrecer. ✨🪚\n\n✅ Construcción Reforzada: Materiales de alta resistencia para una vida útil prolongada bajo uso intensivo. ✅ Fácil Recarga: Sistema diseñado para minimizar el tiempo de inactividad al cambiar el hilo. ✅ Corte Preciso: Balance perfecto que reduce las vibraciones en el eje de la máquina. ✅ Referencia: SHB45-003-18.",
+    "price": 75,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-ps0slja/_assets/media/a130af4c691af57a05a929aada1dea14.png",
+    "stock": 3,
+    "variants": []
+  },
+  {
+    "id": "1768255816461",
+    "name": "Set Amortiguador For MS381 ",
+    "description": "Cuando los amortiguadores se desgastan o se ablandan por el uso, la máquina vibra en exceso, lo que no solo cansa tus brazos, sino que también afecta la precisión de tus cortes. Cambiar este soporte es la solución más efectiva para trabajar con suavidad y proteger la estructura de tu equipo. ✨🛠️\n\n✅ Máxima Absorción: Goma de alta fidelidad que minimiza las sacudidas del motor. ✅ Base Reforzada: Incluye insertos metálicos para un ajuste firme y duradero. ✅ Diseño Específico: Compatible 100% con el chasis de la serie MS361. ✅ Referencia: ST361-017-25.\n\n¡Cuida tu salud y la vida útil de tu motor con repuestos de calidad! 💪⚙️",
+    "price": 2.95,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-phxcj2c/_assets/media/cebc6d7f8c0a9cf532f28eb568591dae.png",
+    "stock": 4,
+    "variants": [
+      {
+        "id": "1768256515890",
+        "name": "Paquete de 10 Unidades",
+        "price": 29,
+        "stock": 10
+      },
+      {
+        "id": "1768258575146",
+        "name": "inidivual",
+        "price": 2.9,
+        "stock": 4
+      }
+    ]
+  },
+  {
+    "id": "1768315766790",
+    "name": "Amortiguador Sin Base For Husqvarna 365-372",
+    "description": "Nuestro Amortiguador de Resorte HUSQ365-005-25 es la solución ideal para reemplazar resortes cedidos o fatigados. A diferencia de los amortiguadores de goma, este resorte de acero ofrece una respuesta más dinámica y una durabilidad superior en trabajos forestales intensivos. ✨🛠️\n\n✅ Acero de Alta Memoria: Mantiene su tensión y capacidad de absorción por mucho más tiempo. ✅ Reducción de Fatiga: Minimiza las vibraciones transmitidas al manubrio para un manejo más suave. ✅ Ajuste de Precisión: Incluye el buje roscado central para una instalación firme y segura. ✅ Referencia: HUSQ365-005-25.\n\n¡Mantén tu equipo profesional funcionando con la suavidad que mereces! 💪⚙️",
+    "price": 2.2,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-t0hjwj0/_assets/media/514de7ac8e1c45acd5bd22d30adecb40.png",
+    "stock": 6,
+    "variants": []
+  },
+  {
+    "id": "1768316989660",
+    "name": "Embolo For 768 ",
+    "description": "Si notas que tu máquina ha perdido presión o tiene fugas constantes en la base de la bomba, es muy probable que el émbolo tenga rayaduras o desgaste por el uso de químicos abrasivos. Cambiar esta pieza garantiza un sellado perfecto y una presión constante para que tus cultivos reciban la protección que necesitan. ✨🛠️\n\n✅ Acero de Alta Calidad: Superficie con acabado espejo para reducir la fricción y el desgaste de los sellos. ✅ Resistencia Química: Fabricado para soportar la corrosión de fertilizantes y pesticidas. ✅ Ajuste Exacto: Específico para bombas de fumigadoras serie 768. ✅ Referencia: F768-016-18.\n\n¡Mantén tu fumigación al máximo nivel con repuestos profesionales! 💪🚜",
+    "price": 9.5,
+    "category": "Repuestos",
+    "imageUrl": "https://desbrozadora.my.canva.site/dag-t-phh3i/_assets/media/f83e50a63cb4ec2d8132fb242ade540e.png",
+    "stock": 8,
+    "variants": []
   }
 ];
 
@@ -566,7 +1024,9 @@ export const CATEGORIES: string[] = [
   "Ferretería",
   "Herramientas",
   "Varios",
-  "Maquinaria"
+  "Maquinaria",
+  "CIntas de Arranque",
+  "Lanzas"
 ];
 
 export const THEME_COLORS = {
@@ -575,3 +1035,4 @@ export const THEME_COLORS = {
   orange: { bg: 'bg-orange-600', text: 'text-orange-600', border: 'border-orange-600', hover: 'hover:bg-orange-700', ring: 'focus:ring-orange-500', btnHover: 'hover:bg-orange-700' },
   red: { bg: 'bg-red-600', text: 'text-red-600', border: 'border-red-600', hover: 'hover:bg-red-700', ring: 'focus:ring-red-500', btnHover: 'hover:bg-red-700' },
 };
+
